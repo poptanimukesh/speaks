@@ -1,0 +1,10 @@
+<div id="q14-wrapper" class="wrapper">
+    <label id="q14-label">
+      <span class="question">
+        What is the proposed title of your project?
+      </span>
+      <span class="error"></span>
+    </label>
+    <input id="q14" type="text" class="form-control" disabled="disabled" value="{details.title}"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}/>
+</div>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {>"base/head"/}
+  </head>
+  <body>
+    {> "base/navbar" /}
+      <div id="wrapper">
+        <div class="container">
+          {+body /}
+        </div>
+      </div>
+
+      <br/>
+      <br/>
+      <script data-main="/javascripts/app" src="/components/requirejs/require.js"></script>
+  </body>
+</html>

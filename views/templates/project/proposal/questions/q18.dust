@@ -1,0 +1,32 @@
+<div id="q18-wrapper" class="wrapper">
+    <label id="q18-label">
+      <span class="question">
+        Which of the following best describes how you came to work with your Project Advisor(s)?
+      </span>
+      <span class="error"></span>
+    </label>
+    <div class="radio" >
+        <label>
+            <input type="radio" name="radio-q18" id="radio-q18" value="0" {@eq key=details.q18 value="0"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            IPPE
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q18" id="radio-q18" value="1" {@eq key=details.q18 value="1"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Intern experience (current or past)
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q18" id="radio-q18" value="2" {@eq key=details.q18 value="2"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            USC faculty/staff
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q18" id="radio-q18" value="3" {@eq key=details.q18 value="3"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Other <br/>
+        </label><br/>
+            <input type="text" name="q18po" id="q18po" class="form-control" value="{details.q18po}"
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}/>
+    </div>
+</div>

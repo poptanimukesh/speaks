@@ -1,0 +1,71 @@
+<div id="q28-wrapper" class="wrapper">
+    <label id="q28-label">
+      <span class="question">
+        Please indicate the study design that most closely describes the design of your study.
+      </span>
+      <span class="error"></span>
+    </label>
+    <div class="radio">
+        <label>
+            <input type="radio" name="radio-q28" id="radio-q28" value="0" {@eq key=details.q28 value="0"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Randomized controlled trial
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q28" id="radio-q28" value="1" {@eq key=details.q28 value="1"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Retrospective or prospective cohort study
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q28" id="radio-q28" value="2" {@eq key=details.q28 value="2"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Case control study
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q28" id="radio-q28" value="3" {@eq key=details.q28 value="3"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Case report/Case series
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q28" id="radio-q28" value="4" {@eq key=details.q28 value="4"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Literature review
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q28" id="radio-q28" value="5" {@eq key=details.q28 value="5"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Cross-sectional study
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q28" id="radio-q28" value="6" {@eq key=details.q28 value="6"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Survival analysis
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q28" id="radio-q28" value="7" {@eq key=details.q28 value="7"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Survey with primary data collection
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q28" id="radio-q28" value="8" {@eq key=details.q28 value="8"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Secondary analysis of survey data
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q28" id="radio-q28" value="9" {@eq key=details.q28 value="9"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Retrospective analysis of claims/patient EHR data
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q28" id="radio-q28" value="10" {@eq key=details.q28 value="10"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Regression-based observational study
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q28" id="radio-q28" value="11" {@eq key=details.q28 value="11"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Other <br/>
+        </label><br/>
+            <input type="text" name="q28po" id="q28po" class="form-control" value="{details.q28po}"/>
+    </div>
+</div>

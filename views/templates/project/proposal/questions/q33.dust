@@ -1,0 +1,10 @@
+<div id="q33-wrapper" class="wrapper">
+    <label id="q33-label">
+      <span class="question">
+        Please describe your plan for statistical analysis of your data.
+      </span>
+      <span class="error"></span>
+    </label>
+    <textarea id="q33" class="form-control" rows="5"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>{details.q33}</textarea>
+</div>

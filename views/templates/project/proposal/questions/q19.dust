@@ -1,0 +1,28 @@
+<div id="q19-wrapper" class="wrapper">
+    <label id="q19-label">
+      <span class="question">
+        Have you ever submitted research to the institutional review board (IRB)?
+      </span>
+      <span class="error"></span>
+    </label>
+    <div class="radio" >
+        <label>
+            <input type="radio" name="radio-q19" id="radio-q19" value="0"
+            {@eq key=details.q19 value="0"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Yes
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q19" id="radio-q19" value="1"
+            {@eq key=details.q19 value="1"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            No
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q19" id="radio-q19" value="2"
+            {@eq key=details.q19 value="2"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Unsure
+        </label><br/>
+    </div>
+</div>

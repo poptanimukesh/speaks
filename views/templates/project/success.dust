@@ -1,0 +1,8 @@
+{> "layouts/master" /}
+
+{<body}
+{#ids}
+<span>{key}</span>
+<a href="{url}">{id}<a><br/>
+{/ids}
+{/body}

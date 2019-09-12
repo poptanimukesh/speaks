@@ -1,0 +1,207 @@
+{> "layouts/master" /}
+
+{<body}
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <h3>{details.title}</h3>
+        <h4>{project.term}</h4>
+    </div>
+    <div class="col-xs-12 col-sm-5 col-md-4 col-sm-offset-1 col-md-offset-2" style="margin-top: 0.5em;">
+        <h4>Proposal status</h4>
+        {^showcomments}{^passedreview}
+            <h5>{proposal.statusmessage}</h5>
+        {/passedreview}{/showcomments}
+        {?showcomments}
+            <h5>Under review</h5>
+        {/showcomments}
+        {?passedreview}
+            <h5>Passed review</h5>
+        {/passedreview}
+    </div>
+</div>
+<br/><br/>
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h5 class="margin0">{@pre type="content" key="sections"/}</h5></div>
+                <div class="list-group">
+                {#page.sections}
+                    {! <button enabled="{enabled}" type="button" class="list-group-item"> !}
+                    {@eq key=linkKey value="info"}
+                        <a class="list-group-item" href="{urls.proposal.info}">
+                    {/eq}
+                    {@eq key=linkKey value="abstract"}
+                        <a class="list-group-item" href="{urls.proposal.abstract}">
+                    {/eq}
+                    {@eq key=linkKey value="text"}
+                        <a class="list-group-item" href="{urls.proposal.text}">
+                    {/eq}
+                    {@eq key=linkKey value="outcomes"}
+                        <a class="list-group-item" href="{urls.proposal.outcomes}">
+                    {/eq}
+                    {@eq key=linkKey value="citations"}
+                        <a class="list-group-item" href="{urls.proposal.citations}">
+                    {/eq}
+                        {text}
+                        {! TODO: Insert the completion icons logic here !}
+                        {! {?status}
+                            {@eq key=key value="text"}
+                                {?showcomments}
+                                    <span class="pull-right status-danger">
+                                        <i class="fa fa-warning" aria-hidden="true"></i>
+                                    </span>
+                                {:else}
+                                    <span class="pull-right status-success">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                    </span>
+                                {/showcomments}
+                            {:else}
+                                <span class="pull-right status-success">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </span>
+                            {/eq}
+                        {/status} !}
+                    </a>
+                    {! </button> !}
+                {/page.sections}
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-5 col-md-4 col-sm-offset-1 col-md-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h5 class="margin0">{@pre type="content" key="team_members"/}</h5></div>
+            <div class="list-group">
+                {#team.members}
+                <div class="list-group-item border0">
+                    <div>{first_name} {last_name}</div>
+                    <div>{email}</div>
+                </div>
+                {/team.members}
+            </div>
+        </div>
+    </div>
+</div>
+
+{@eq key=role value="student"}
+{?details.mCmt}
+<div class="panel panel-warning">
+    <div class="panel-heading">
+        <strong>Comments from Mentor</strong>
+    </div>
+    <div class="panel-body">
+    <p>{details.mCmt}</p>
+    </div>
+</div>
+{/details.mCmt}
+
+{?details.aCmt}
+<div class="panel panel-danger">
+    <div class="panel-heading">
+        <strong>Comments from Admin</strong>
+    </div>
+    <div class="panel-body">
+    <p>{details.aCmt}</p>
+    </div>
+</div>
+{/details.aCmt}
+{/eq}
+
+{@eq key=role value="admin"}
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <div id="aCmt-wrapper">
+            <label id="aCmt-label">Enter Comments</label>
+            <textarea id="aCmt" class="form-control" rows="5">{details.aCmt}</textarea>
+            <br/>
+            <input id="aCmt-update" type="button" class="btn btn-default" value="Update" />
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(e) {
+    $("#aCmt-update").click(aCmtUpdate);
+});
+
+function aCmtUpdate(e) {
+    var proxyId = $("#proxyId").text();
+
+    var data = {
+        aCmt: $("#aCmt").val(),
+        _csrf: $("#_csrf").val()
+    };
+
+    $.ajax({
+        method: "PUT",
+        url: "/api/project/" + proxyId + "/details",
+        data: data,
+        success: success
+    });
+}
+
+function success(result) {
+    console.log(result);
+}
+</script>
+{/eq}
+
+{@eq key=role value="mentor"}
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <div id="mCmt-wrapper">
+            <label id="mCmt-label">Enter Comments</label>
+            <textarea id="mCmt" class="form-control" rows="5">{details.mCmt}</textarea>
+            <br/>
+            <input id="mCmt-update" type="button" class="btn btn-default" value="Update" />
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(e) {
+    $("#mCmt-update").click(mCmtUpdate);
+});
+
+function mCmtUpdate(e) {
+    var proxyId = $("#proxyId").text();
+
+    var data = {
+        mCmt: $("#mCmt").val(),
+        _csrf: $("#_csrf").val()
+    };
+
+    $.ajax({
+        method: "PUT",
+        url: "/api/project/" + proxyId + "/details",
+        data: data,
+        success: success
+    });
+}
+
+function success(result) {
+    console.log(result);
+}
+</script>
+{/eq}
+
+<br/>
+<div class="hidden" id="proxyId">{proxyId}</div>
+<input type="hidden" id="_csrf" value="{_csrf}"/>
+<div class="hidden" id="allDone">{proposal.alldone}</div>
+<div class="hidden" id="next">/project/{proxyId}/proposal/review</div>
+<button id="btnReview" class="btn btn-default">{@message type="content" key="review"/}</button>
+
+{+scripts /}
+{/body}
+
+{<scripts}
+<script type="text/javascript">
+console.log($("#allDone").text());
+if ($("#allDone").text() == "true") {
+    console.log("All Done!");
+    $("#btnReview").removeAttr("disabled");
+}
+
+$("#btnReview").click(function() {
+    window.location = $("#next").text();
+});
+</script>
+{/scripts}

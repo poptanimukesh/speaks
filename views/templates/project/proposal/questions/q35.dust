@@ -1,0 +1,25 @@
+<div id="q35-wrapper" class="wrapper">
+    <label id="q35-label">
+      <span class="question">
+        If you believe your study does require IRB approval, what category of approval will you be seeking?
+      </span>
+      <span class="error"></span>
+    </label>
+    <div class="radio">
+        <label>
+            <input type="radio" name="radio-q35" id="radio-q35" value="0" {@eq key=details.q35 value="0"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Exempt
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q35" id="radio-q35" value="1" {@eq key=details.q35 value="1"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Expedited
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q35" id="radio-q35" value="2" {@eq key=details.q35 value="2"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Full board review
+        </label><br/>
+    </div>
+</div>

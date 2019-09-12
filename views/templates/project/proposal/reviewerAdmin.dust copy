@@ -1,0 +1,308 @@
+{> "layouts/master" /}
+
+<style type="text/css">
+     .border1{
+        border: 1px solid #ccc;  
+     }
+     ul{
+        margin-left: 30px;
+     }
+</style>
+
+{<body}
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-12">
+        <div class="panel-heading">
+          <strong>Proposal Review Section for Project : {project.projectId} - {details.title}</strong>
+        </div>
+        <div class="panel-body">
+          <br/>
+          <div class='row' style='border: 1px solid #ccc;padding: 20px;background-color: #f8f8f8;'>
+            <div class='row border1'>
+              <div class='col-md-8'>
+                <b>Review Summary</b> </br>
+                Meets none of the criteria:=0, Meets some of the criteria=1, Meets most of the criteria=2, Meets all of the criteria=3
+              </div>
+              <div class='col-md-2'>
+                Reviewer 1:<br/>{details.r1}
+              </div>
+              <div class='col-md-2'>
+                Reviewer 2:<br/>{details.r2}
+              </div>
+            </div>
+
+            <div class='row border1'>
+                 <div class='col-md-8'>
+                     <b>Research Question</b>- The stated research question is:
+                       <ul>
+                          <li>Focused,</li>
+                          <li>Important, and</li>
+                          <li>Feasible to study</li>
+                       </ul>
+                 </div>
+                 <div class='col-md-2'>
+                     <input type='radio' name="radio-q91" id="radio-q91" value="0" {@eq key=details.r1q91 value="0"} checked {/eq}/> 0</br>
+                     <input type='radio' name="radio-q91" id="radio-q91" value="1" {@eq key=details.r1q91 value="1"} checked {/eq}/> 1</br>
+                     <input type='radio' name="radio-q91" id="radio-q91" value="2" {@eq key=details.r1q91 value="2"} checked {/eq}/> 2</br>
+                     <input type='radio' name="radio-q91" id="radio-q91" value="3" {@eq key=details.r1q91 value="3"} checked {/eq}/> 3</br>
+                 </div>
+                 <div class='col-md-2'>
+                     <input type='radio' name="radio1-q91" id="radio1-q91" value="0" {@eq key=details.r2q91 value="0"} checked {/eq}/> 0</br>
+                     <input type='radio' name="radio1-q91" id="radio1-q91" value="1" {@eq key=details.r2q91 value="1"} checked {/eq}/> 1</br>
+                     <input type='radio' name="radio1-q91" id="radio1-q91" value="2" {@eq key=details.r2q91 value="2"} checked {/eq}/> 2</br>
+                     <input type='radio' name="radio1-q91" id="radio1-q91" value="3" {@eq key=details.r2q91 value="3"} checked {/eq}/> 3</br>
+                 </div>
+             </div>
+
+            <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Research Objectives</b>- The states search objectives are
+                     <ul>
+                        <li>Specific</li>
+                        <li>Measurable</li>
+                        <li>Achievable</li>
+                        <li>Relevant</li>
+                        <li>Time-bound</li>
+                     </ul>
+               </div>
+               <div class='col-md-2'>
+                     <input type='radio' name="radio-q92" id="radio-q92" value="0" {@eq key=details.r1q92 value="0"} checked {/eq}/> 0</br>
+                     <input type='radio' name="radio-q92" id="radio-q92" value="1" {@eq key=details.r1q92 value="1"} checked {/eq}/> 1</br>
+                     <input type='radio' name="radio-q92" id="radio-q92" value="2" {@eq key=details.r1q92 value="2"} checked {/eq}/> 2</br>
+                     <input type='radio' name="radio-q92" id="radio-q92" value="3" {@eq key=details.r1q92 value="3"} checked {/eq}/> 3</br>
+               </div>
+               <div class='col-md-2'>
+                     <input type='radio' name="radio1-q92" id="radio1-q92" value="0" {@eq key=details.r2q92 value="0"} checked {/eq}/> 0</br>
+                     <input type='radio' name="radio1-q92" id="radio1-q92" value="1" {@eq key=details.r2q92 value="1"} checked {/eq}/> 1</br>
+                     <input type='radio' name="radio1-q92" id="radio1-q92" value="2" {@eq key=details.r2q92 value="2"} checked {/eq}/> 2</br>
+                     <input type='radio' name="radio1-q92" id="radio1-q92" value="3" {@eq key=details.r2q92 value="3"} checked {/eq}/> 3</br>
+               </div>
+           </div>
+
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Significance/ Background</b>- The significance and background:
+                     <ul>
+                        <li>Establishes the importance of research</li>
+                        <li>Describes a need for the research:</li>
+                           <ul>
+                              <li>Generates new knowledge,</li>
+                              <li>Answers whether a previous observation can be replicated,</li>
+                              <li>Documents if previous findings can be applied to a different population, or</li>
+                              <li>Determines if improved measurement techniques can clarify a relationship</li>
+                           </ul>
+                        <li>Provides relevance of research to clinical pharmacy</li>
+                        <li>Includes 3 relevant citations in appropriate format</li>
+                     </ul>
+               </div>
+               <div class='col-md-2'>
+                     <input type='radio' name="radio-q93" id="radio-q93" value="0" {@eq key=details.r1q93 value="0"} checked {/eq}/> 0</br>
+                     <input type='radio' name="radio-q93" id="radio-q93" value="1" {@eq key=details.r1q93 value="1"} checked {/eq}/> 1</br>
+                     <input type='radio' name="radio-q93" id="radio-q93" value="2" {@eq key=details.r1q93 value="2"} checked {/eq}/> 2</br>
+                     <input type='radio' name="radio-q93" id="radio-q93" value="3" {@eq key=details.r1q93 value="3"} checked {/eq}/> 3</br>
+               </div>
+               <div class='col-md-2'>
+                     <input type='radio' name="radio1-q93" id="radio1-q93" value="0" {@eq key=details.r2q93 value="0"} checked {/eq}/> 0</br>
+                     <input type='radio' name="radio1-q93" id="radio1-q93" value="1" {@eq key=details.r2q93 value="1"} checked {/eq}/> 1</br>
+                     <input type='radio' name="radio1-q93" id="radio1-q93" value="2" {@eq key=details.r2q93 value="2"} checked {/eq}/> 2</br>
+                     <input type='radio' name="radio1-q93" id="radio1-q93" value="3" {@eq key=details.r2q93 value="3"} checked {/eq}/> 3</br>
+               </div>
+           </div>
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Study Design</b>- The selected study design:
+                     <ul>
+                        <li>Matches the description of what is stated elsewhere in the proposal</li>
+                        <li>Target patient population clearly defined and reasonable</li>
+                     </ul>
+               </div>
+               <div class='col-md-2'>
+                     <input type='radio' name="radio-q94" id="radio-q94" value="0" {@eq key=details.r1q94 value="0"} checked {/eq}/> 0</br>
+                     <input type='radio' name="radio-q94" id="radio-q94" value="1" {@eq key=details.r1q94 value="1"} checked {/eq}/> 1</br>
+                     <input type='radio' name="radio-q94" id="radio-q94" value="2" {@eq key=details.r1q94 value="2"} checked {/eq}/> 2</br>
+                     <input type='radio' name="radio-q94" id="radio-q94" value="3" {@eq key=details.r1q94 value="3"} checked {/eq}/> 3</br>
+               </div>
+               <div class='col-md-2'>
+                     <input type='radio' name="radio1-q94" id="radio1-q94" value="0" {@eq key=details.r2q94 value="0"} checked {/eq}/> 0</br>
+                     <input type='radio' name="radio1-q94" id="radio1-q94" value="1" {@eq key=details.r2q94 value="1"} checked {/eq}/> 1</br>
+                     <input type='radio' name="radio1-q94" id="radio1-q94" value="2" {@eq key=details.r2q94 value="2"} checked {/eq}/> 2</br>
+                     <input type='radio' name="radio1-q94" id="radio1-q94" value="3" {@eq key=details.r2q94 value="3"} checked {/eq}/> 3</br>
+               </div>
+           </div>
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Data Collection and Analysis plan</b>- The data collection and analysis plans are:
+                     <ul>
+                        <li>Deliberate and systematic</li>
+                        <li>Reasonable for time frame</li>
+                        <li>Identify statistical software or support to be utilized</li>
+                     </ul>
+               </div>
+               <div class='col-md-2'>
+                     <input type='radio' name="radio-q95" id="radio-q95" value="0" {@eq key=details.r1q95 value="0"} checked {/eq}/> 0</br>
+                     <input type='radio' name="radio-q95" id="radio-q95" value="1" {@eq key=details.r1q95 value="1"} checked {/eq}/> 1</br>
+                     <input type='radio' name="radio-q95" id="radio-q95" value="2" {@eq key=details.r1q95 value="2"} checked {/eq}/> 2</br>
+                     <input type='radio' name="radio-q95" id="radio-q95" value="3" {@eq key=details.r1q95 value="3"} checked {/eq}/> 3</br>
+               </div>
+               <div class='col-md-2'>
+                     <input type='radio' name="radio1-q95" id="radio1-q95" value="0" {@eq key=details.r2q95 value="0"} checked {/eq}/> 0</br>
+                     <input type='radio' name="radio1-q95" id="radio1-q95" value="1" {@eq key=details.r2q95 value="1"} checked {/eq}/> 1</br>
+                     <input type='radio' name="radio1-q95" id="radio1-q95" value="2" {@eq key=details.r2q95 value="2"} checked {/eq}/> 2</br>
+                     <input type='radio' name="radio1-q95" id="radio1-q95" value="3" {@eq key=details.r2q95 value="3"} checked {/eq}/> 3</br>
+               </div>
+           </div>
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Timeline and responsibilities of each team member are:</b>
+                     <ul>
+                        <li>Clearly defined</li>
+                        <li>Reasonable to meet deadlines</li>
+                     </ul>
+               </div>
+               <div class='col-md-2'>
+                     <input type='radio' name="radio-q96" id="radio-q96" value="0" {@eq key=details.r1q96 value="0"} checked {/eq}/> 0</br>
+                     <input type='radio' name="radio-q96" id="radio-q96" value="1" {@eq key=details.r1q96 value="1"} checked {/eq}/> 1</br>
+                     <input type='radio' name="radio-q96" id="radio-q96" value="2" {@eq key=details.r1q96 value="2"} checked {/eq}/> 2</br>
+                     <input type='radio' name="radio-q96" id="radio-q96" value="3" {@eq key=details.r1q96 value="3"} checked {/eq}/> 3</br>
+               </div>
+               <div class='col-md-2'>
+                     <input type='radio' name="radio1-q96" id="radio1-q96" value="0" {@eq key=details.r2q96 value="0"} checked {/eq}/> 0</br>
+                     <input type='radio' name="radio1-q96" id="radio1-q96" value="1" {@eq key=details.r2q96 value="1"} checked {/eq}/> 1</br>
+                     <input type='radio' name="radio1-q96" id="radio1-q96" value="2" {@eq key=details.r2q96 value="2"} checked {/eq}/> 2</br>
+                     <input type='radio' name="radio1-q96" id="radio1-q96" value="3" {@eq key=details.r2q96 value="3"} checked {/eq}/> 3</br>
+               </div>
+           </div>
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Readability and Grammar- The proposal</b>
+                     <ul>
+                        <li>Clearly communicates thoughts and concepts,</li>
+                        <li>Uses concise writing; avoids repetition and wordiness,</li>
+                        <li>Utilizes professional language and style, and</li>
+                        <li>Is free of grammatical or technical errors.</li>
+                     </ul>
+               </div>
+               <div class='col-md-2'>
+                     <input type='radio' name="radio-q97" id="radio-q97" value="0" {@eq key=details.r1q97 value="0"} checked {/eq}/> 0</br>
+                     <input type='radio' name="radio-q97" id="radio-q97" value="1" {@eq key=details.r1q97 value="1"} checked {/eq}/> 1</br>
+                     <input type='radio' name="radio-q97" id="radio-q97" value="2" {@eq key=details.r1q97 value="2"} checked {/eq}/> 2</br>
+                     <input type='radio' name="radio-q97" id="radio-q97" value="3" {@eq key=details.r1q97 value="3"} checked {/eq}/> 3</br>
+               </div>
+               <div class='col-md-2'>
+                     <input type='radio' name="radio1-q97" id="radio1-q97" value="0" {@eq key=details.r2q97 value="0"} checked {/eq}/> 0</br>
+                     <input type='radio' name="radio1-q97" id="radio1-q97" value="1" {@eq key=details.r2q97 value="1"} checked {/eq}/> 1</br>
+                     <input type='radio' name="radio1-q97" id="radio1-q97" value="2" {@eq key=details.r2q97 value="2"} checked {/eq}/> 2</br>
+                     <input type='radio' name="radio1-q97" id="radio1-q97" value="3" {@eq key=details.r2q97 value="3"} checked {/eq}/> 3</br>
+               </div>
+           </div>
+
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>IRB questions are completed and accurate</b>
+               </div>
+               <div class='col-md-2'>
+                     <input type='radio' name="radio-q98" id="radio-q98" value="yes" {@eq key=details.r1q98 value="yes"} checked {/eq}/> Yes</br>
+                     <input type='radio' name="radio-q98" id="radio-q98" value="no" {@eq key=details.r1q98 value="no"} checked {/eq}/> No</br>
+               </div>
+               <div class='col-md-2'>
+                     <input type='radio' name="radio1-q98" id="radio1-q98" value="yes" {@eq key=details.r2q98 value="yes"} checked {/eq}/> Yes</br>
+                     <input type='radio' name="radio1-q98" id="radio1-q98" value="no" {@eq key=details.r2q98 value="no"} checked {/eq}/> No</br>
+               </div>
+           </div>
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Project advisor section completed</b>
+               </div>
+               <div class='col-md-2'>
+                     <input type='radio' name="radio-q99" id="radio-q99" value="yes" {@eq key=details.r1q99 value="yes"} checked {/eq}/> Yes</br>
+                     <input type='radio' name="radio-q99" id="radio-q99" value="no" {@eq key=details.r1q99 value="no"} checked {/eq}/> No</br>
+               </div>
+               <div class='col-md-2'>
+                     <input type='radio' name="radio1-q99" id="radio1-q99" value="yes" {@eq key=details.r2q99 value="yes"} checked {/eq}/> Yes</br>
+                     <input type='radio' name="radio1-q99" id="radio1-q99" value="no" {@eq key=details.r2q99 value="no"} checked {/eq}/> No</br>
+               </div>
+           </div>
+
+          <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Overall Impression</b>- The overall impression evaluates the entire abstract, as a whole. It is not a mathematical representation of the individual scores above. 
+               </div>
+               <div class='col-md-2'>
+                     <input type='radio' name="radio-q100" id="radio-q100" value="poor" {@eq key=details.r1q100 value="poor"} checked {/eq}/> Poor</br>
+                     <input type='radio' name="radio-q100" id="radio-q100" value="average" {@eq key=details.r1q100 value="average"} checked {/eq}/> Average</br>
+                     <input type='radio' name="radio-q100" id="radio-q100" value="very_good" {@eq key=details.r1q100 value="very_good"} checked {/eq}/> Very good</br>
+                     <input type='radio' name="radio-q100" id="radio-q100" value="excellent" {@eq key=details.r1q100 value="excellent"} checked {/eq}/> Excellent</br>
+               </div>
+               <div class='col-md-2'>
+                     <input type='radio' name="radio1-q100" id="radio1-q100" value="poor" {@eq key=details.r2q100 value="poor"} checked {/eq}/> Poor</br>
+                     <input type='radio' name="radio1-q100" id="radio1-q100" value="average" {@eq key=details.r2q100 value="average"} checked {/eq}/> Average</br>
+                     <input type='radio' name="radio1-q100" id="radio1-q100" value="very_good" {@eq key=details.r2q100 value="very_good"} checked {/eq}/> Very good</br>
+                     <input type='radio' name="radio1-q100" id="radio1-q100" value="excellent" {@eq key=details.r2q100 value="excellent"} checked {/eq}/> Excellent</br>
+               </div>
+           </div>
+
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Overall comments</b>- Please provide your overall comments for the authors to consider. 
+               </div>
+               <div class='col-md-2'>
+
+                   <textarea rows="4" cols="20" readonly disabled></textarea>
+               </div>
+               <div class='col-md-2'>
+                   
+                   <textarea rows="4" cols="20" readonly disabled></textarea>
+               </div>
+           </div>
+
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Publish status</b>
+               </div>
+               <div class='col-md-2'>
+                   {@eq key=details.r1_published value="true"}
+                      Published
+                   {/eq}
+               </div>
+               <div class='col-md-2'>
+                   {@eq key=details.r2_published value="true"}
+                      Published
+                  {/eq}
+               </div>
+           </div>
+
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b> </b>
+               </div>
+               <div class='col-md-2'>
+                    {@eq key=details.r2_published value="true"}
+                      <button id="btn1-unpublish" class="btn btn-success" type="button">Unpublish</button>
+                    {/eq}
+               </div>
+               <div class='col-md-2'>
+                   {@eq key=details.r2_published value="true"}
+                      <button id="btn2-unpublish" class="btn btn-success" type="button">Unpublish</button>
+                   {/eq}
+               </div>
+           </div>
+
+          </div>
+      </div>
+      
+      <div class="">
+
+          <input type="hidden" id="_csrf" value="{_csrf}" />
+      </div>
+    </div>
+</div>
+
+<div class="hidden" id="proxyId">{proxyId}</div>
+<div class="hidden" id="userId">{userId}</div>
+<div class="hidden" id="reviewer">{reviewer}</div>
+{> "templates/project/proposal/commonScript" /}
+{> "templates/project/proposal/confirmSubmit" /}
+{> "templates/project/proposal/roleDisable" /}
+{> "templates/project/proposal/saveText" /}
+{> "templates/project/proposal/checkQuestions" /}
+{/body}

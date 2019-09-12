@@ -1,0 +1,26 @@
+{> "layouts/master" /}
+
+{<body}
+<div class="row">
+    <div class="col-xs-12 col-sm-12">
+        <h3>{details.title}</h3>
+        {! <h4>Upload {uploadType}</h4> !}
+    </div>
+</div>
+<br/><br/>
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <form id="uploadform" enctype="multipart/form-data" method="post" action="upload">
+            <div class="form-group">
+                <label for="exampleInputFile">Select {uploadType}</label>
+                <input class="form-control" type="file" id="uploadFile" name="uploadFile" accept=".pdf">
+                <input type="hidden" id="_csrf" name="_csrf" value="{_csrf}" />
+                <input type="hidden" id="uploadType" name="uploadType" value="{uploadType}" />
+                <p class="help-block">Upload your project abstract in PDF format here.</p>
+            </div>
+            <a type="button" class="btn btn-default" href="/project/{proxyId}/">Cancel</a>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+</div>
+{/body}

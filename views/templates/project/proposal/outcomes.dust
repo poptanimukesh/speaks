@@ -1,0 +1,104 @@
+{> "layouts/master" /}
+
+{<body}
+<h3>Program Outcomes</h3>
+<br/>
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">{@message type="content" key="patientcare_title"/}</div>
+            <div class="panel-body">
+                {@provide}
+                    {#patientcareitems}
+                        <div class="checkbox"><label><input type="checkbox">
+                            {$elt}
+                        </label></div>
+                    {/patientcareitems}
+                {:patientcareitems}
+                    {@message type="content" key="patientcare_items" mode="paired"/}
+                {/provide}
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">{@message type="content" key="applyknowledge_title"/}</div>
+            <div class="panel-body">
+                {@provide}
+                    {#patientcareitems}
+                        <div class="checkbox"><label><input type="checkbox">
+                            {$elt}
+                        </label></div>
+                    {/patientcareitems}
+                {:patientcareitems}
+                    {@message type="content" key="applyknowledge_items" mode="paired"/}
+                {/provide}
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">{@message type="content" key="demoapproach_title"/}</div>
+            <div class="panel-body">
+                {@provide}
+                    {#patientcareitems}
+                        <div class="checkbox"><label><input type="checkbox">
+                            {$elt}
+                        </label></div>
+                    {/patientcareitems}
+                {:patientcareitems}
+                    {@message type="content" key="demoapproach_items" mode="paired"/}
+                {/provide}
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">{@message type="content" key="demobehavior_title"/}</div>
+            <div class="panel-body">
+                {@provide}
+                    {#patientcareitems}
+                        <div class="checkbox"><label><input type="checkbox">
+                            {$elt}
+                        </label></div>
+                    {/patientcareitems}
+                {:patientcareitems}
+                    {@message type="content" key="demobehavior_items" mode="paired"/}
+                {/provide}
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">{@message type="content" key="resources_title"/}</div>
+            <div class="panel-body">
+                {@provide}
+                    {#patientcareitems}
+                        <div class="checkbox"><label><input type="checkbox">
+                            {$elt}
+                        </label></div>
+                    {/patientcareitems}
+                {:patientcareitems}
+                    {@message type="content" key="resources_items" mode="paired"/}
+                {/provide}
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">{@message type="content" key="engage_title"/}</div>
+            <div class="panel-body">
+                {@provide}
+                    {#patientcareitems}
+                        <div class="checkbox"><label><input type="checkbox">
+                            {$elt}
+                        </label></div>
+                    {/patientcareitems}
+                {:patientcareitems}
+                    {@message type="content" key="engage_items" mode="paired"/}
+                {/provide}
+            </div>
+        </div>
+    </div>
+</div>
+
+</br>
+</br>
+<a href="/project/{project.project_id}/proposal" class="btn btn-default">{@pre type="content" key="cancel"/}</a>
+<a href="/project/{project.project_id}/proposal" class="btn btn-success">{@pre type="content" key="save"/}</a>
+{/body}

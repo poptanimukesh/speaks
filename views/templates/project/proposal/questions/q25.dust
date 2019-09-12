@@ -1,0 +1,48 @@
+<div id="q25-wrapper" class="wrapper">
+    <label id="q25-label">
+      <span class="question">
+        Which of the following best describes your highest academic degree?
+      </span>
+      <span class="error"></span>
+    </label>
+    <div class="radio">
+        <label>
+            <input type="radio" name="radio-q25" id="radio-q25" value="0"
+            {@eq key=details.q25 value="0"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Bachelor's
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q25" id="radio-q25" value="1"
+            {@eq key=details.q25 value="1"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            PharmD
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q25" id="radio-q25" value="2"
+            {@eq key=details.q25 value="2"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            PhD
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q25" id="radio-q25" value="3"
+            {@eq key=details.q25 value="3"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            MD
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q25" id="radio-q25" value="4"
+            {@eq key=details.q25 value="4"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            MPH
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q25" id="radio-q25" value="5"
+            {@eq key=details.q25 value="5"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Other <br/>
+        </label><br/>
+            <input type="text" name="q25po" id="q25po" class="form-control" value="{details.q25po}"
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}/>
+    </div>
+</div>

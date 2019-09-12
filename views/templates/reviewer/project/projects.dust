@@ -1,0 +1,466 @@
+<style type="text/css">
+         .border1{
+            border: 1px solid #ccc;  
+         }
+         ul{
+            margin-left: 30px;
+         }
+      </style>
+<script type="text/javascript">
+var modal,
+  editor,
+  ftable,
+  metasFtable;
+
+var formatter = {
+  wrapAsLinkButton: function(title) {
+    return function(value) {
+      if (value == undefined || value == null || value == false || value == "false" || value == "") {
+        return '';
+      }
+      return '<a target="_blank" class="btn btn-default btn-xs" href="' + value + '">' + title + '</a>';
+    }
+  },
+  wrapAsLink: function(value) {
+    return '<a target="_blank" class="btn btn-default btn-xs" href="' + value + '">' + 'Project' + '</a>';
+  },
+  links: function(data) {
+    var result = '';
+
+    result += formatter.wrapAsLinkButton('Proposal Review')(data.project + '/proposal-review');
+
+    return result;
+  },
+  wrapAsCheckbox: function(title, eventHandler, proxyId) {
+    return function(value) {
+      if (value == undefined || value == null || value == false || value == "false" || value == "") {
+        return '<input data-proxyid="' + proxyId + '" type="checkbox" value="' + title + '" onchange="eventHandlers.' + eventHandler + '(event)"/> ' + title + '<br/>';
+      }
+      return '<input data-proxyid="' + proxyId + '" type="checkbox" checked="checked" value="' + title + '" onchange="eventHandlers.' + eventHandler + '(event)"/> ' + title + '<br/>';
+    }
+  },
+  switches: function(data) {
+    var result = formatter.wrapAsCheckbox("Abstract", "onAbstractCheckChange", data.proxyId)(data.abstractLocked)
+      + formatter.wrapAsCheckbox("Poster", "onPosterCheckChange", data.proxyId)(data.posterSubmitted)
+      + formatter.wrapAsCheckbox("Proposal", "onProposalCheckChange", data.proxyId)(data.proposalLocked)
+      + formatter.wrapAsCheckbox("Publish", "onPuslishSymposiumCheckChange", data.proxyId)(data.publishSymposium)
+      + formatter.wrapAsCheckbox("Deleted", "onDeletedCheckChange", data.proxyId)(data.projectDeleted);
+    result += formatter.misc(data.misc);
+    return result;
+  },
+  misc: function(data) {
+    var result = "";
+    if (data.studentHasCommented) {
+      result += '<span class="label label-primary">Student Comments</span>';
+      result += '</br>';
+    }
+    if (data.adminHasCommented) {
+      result += '<span class="label label-danger">Admin Comments</span>';
+      result += '</br>';
+    }
+    return result;
+  },
+  updateDetailsButton: function(proxyId, title, dataKey, dataValue) {
+    var result ='';
+
+    result += '<button class="btn btn-default btn-xs" onclick="detailsUpdate(\'' + proxyId +'\',\'' + dataKey + '\',\'' + dataValue +'\')">' + title + '</button>';
+
+    return result;
+  }
+};
+
+function detailsUpdate(proxyId, key, value) {
+    var data = {
+        _csrf: $("#_csrf").val()
+    };
+    data[key] = value;
+
+    $.ajax({
+        method: "PUT",
+        url: "/api/v1/project/" + proxyId + "/details",
+        data: data,
+    }).done(function(result) {
+        if (result.status == "error") {
+            alert('Error');
+        } else {
+            alert('Success');
+        }
+    }).fail(function(err) {
+        alert('Error');
+    });
+};
+
+var sortValue = {
+  switches: function(data) {
+    if (data.misc.studentHasCommented) {
+      return 0;
+    }
+    if (data.misc.adminHasCommented) {
+      return 1;
+    }
+    return 1000;
+  },
+  status: function(data) {
+    if (data == "In Progress") return 0;
+    if (data == "Complete") return 1;
+    if (data == "Published") return 2;
+  }
+};
+
+var eventHandlers = {
+  onAbstractCheckChange: function(e) {
+    var target = $(e.target);
+    var isChecked = target.is(':checked');
+    var proxyId = target.data('proxyid');
+    var _csrf = $("#_csrf").val();
+
+    $.post({
+      method: 'PUT',
+      url: '/api/v1/project/' + proxyId + '/details',
+      data: {
+        abstract_locked: isChecked,
+        _csrf: _csrf
+      }
+    }).done(function(result) {
+      alert('Success');
+    }).fail(function(err) {
+      document.write(err.responseText);
+    });
+  },
+  onPosterCheckChange: function(e) {
+    var target = $(e.target);
+    var isChecked = target.is(':checked');
+    var proxyId = target.data('proxyid');
+    var _csrf = $("#_csrf").val();
+
+    $.post({
+      method: 'PUT',
+      url: '/api/v1/project/' + proxyId + '/details',
+      data: {
+        poster_submitted: isChecked,
+        _csrf: _csrf
+      }
+    }).done(function(result) {
+      alert('Success');
+    }).fail(function(err) {
+      document.write(err.responseText);
+    });
+  },
+  onProposalCheckChange: function(e) {
+    var target = $(e.target);
+    var isChecked = target.is(':checked');
+    var proxyId = target.data('proxyid');
+    var _csrf = $("#_csrf").val();
+
+    $.post({
+      method: 'PUT',
+      url: '/api/v1/project/' + proxyId + '/details',
+      data: {
+        proposal_locked: isChecked,
+        _csrf: _csrf
+      }
+    }).done(function(result) {
+      alert('Success');
+    }).fail(function(err) {
+      document.write(err.responseText);
+    });
+  },
+  onPuslishSymposiumCheckChange: function(e) {
+    var target = $(e.target);
+    var isChecked = target.is(':checked');
+    var proxyId = target.data('proxyid');
+    var _csrf = $("#_csrf").val();
+
+    $.post({
+      method: 'PUT',
+      url: '/api/v1/project/' + proxyId + '/details',
+      data: {
+        publish_symposium: isChecked,
+        _csrf: _csrf
+      }
+    }).done(function(result) {
+      alert('Success');
+    }).fail(function(err) {
+      document.write(err.responseText);
+    });
+  },
+  onDeletedCheckChange: function(e) {
+    var target = $(e.target);
+    var isChecked = target.is(':checked');
+    var proxyId = target.data('proxyid');
+    var _csrf = $("#_csrf").val();
+
+    $.post({
+      method: 'DELETE',
+      url: '/api/v1/project/' + proxyId,
+      data: {
+        _csrf: _csrf
+      }
+    }).done(function(result) {
+      alert('Success');
+    }).fail(function(err) {
+      document.write(err.responseText);
+    });
+  }
+};
+
+var getURLParameter = function(sParam) {
+  var sPageURL = window.location.search.substring(1);
+  var sURLVariables = sPageURL.split('&');
+  for (var i = 0; i < sURLVariables.length; i++)
+  {
+      var sParameterName = sURLVariables[i].split('=');
+      if (sParameterName[0] == sParam)
+      {
+          return sParameterName[1];
+      }
+  }
+};
+
+var metasFormatterForType = {
+  count: function(data) {
+    return
+    "<table class='table table-condensed'>\
+      <thead><tr><th><strong>Count Type</strong></th><th><strong>Value</strong></th></tr></thead>\
+      <tbody>\
+        <tr><td>In Progress</td><td>" + data["In Progress"] + "</td></tr>\
+        <tr><td>Complete</td><td>" + data["Complete"] + "</td></tr>\
+        <tr><td>Published</td><td>" + data["Published"] + "</td></tr>\
+        <tr><td>Total</td><td>" + data["Total"] + "</td></tr>\
+        <tr><td></br></td><td></br></td></tr>\
+        <tr><td>Admin Comments</td><td>" + data["AdminComments"] + "</td></tr>\
+        <tr><td>Student Comments</td><td>" + data["StudentComments"] + "</td></tr>\
+      </tbody>\
+    </table>";
+  }
+};
+
+var metasFormatter = function(data) {
+  return metasFormatterForType[data.key](data.value);
+};
+
+var proposalFormatter = function(data) {
+return "<div class='row' style='border: 1px solid #ccc;padding: 20px;background-color: #f8f8f8;'> \
+      <div class='row border1'> \
+         <div class='col-md-12'> \
+         <b>Review Summary</b> </br> \
+         Meets none of the criteria:=0, Meets some of the criteria=1, Meets most of the criteria=2, Meets all of the criteria=3 \
+         </div> \
+      </div> \
+      <div class='row border1'> \
+         <div class='col-md-10'> \
+             <b>Research Question</b>- The stated research question is: \
+               <ul> \
+                  <li>Focused,</li> \
+                  <li>Important, and</li> \
+                  <li>Feasible to study</li> \
+               </ul> \
+         </div> \
+         <div class='col-md-2'> \
+             <input type='radio' name=" + proxyId + "'q1' value='0'/> 0</br> \
+             <input type='radio' name='q1' value='1'/> 1</br> \
+             <input type='radio' name='q1' value='2'/> 2</br> \
+             <input type='radio' name='q1' value='3'/> 3 \
+         </div> \
+     </div> \
+     <div class='row border1'> \
+         <div class='col-md-10'> \
+             <b>Research Objectives</b>- The states search objectives are \
+               <ul> \
+                  <li>Specific</li> \
+                  <li>Measurable</li> \
+                  <li>Achievable</li> \
+                  <li>Relevant</li> \
+                  <li>Time-bound</li> \
+               </ul> \
+         </div> \
+         <div class='col-md-2'> \
+             <input type='radio' name='q2' value='0'/> 0</br> \
+             <input type='radio' name='q2' value='1'/> 1</br> \
+             <input type='radio' name='q2' value='2'/> 2</br> \
+             <input type='radio' name='q2' value='3'/> 3 \
+         </div> \
+     </div> \
+     <div class='row border1'> \
+         <div class='col-md-10'> \
+             <b>Significance/ Background</b>- The significance and background: \
+               <ul> \
+                  <li>Establishes the importance of research</li> \
+                  <li>Describes a need for the research:</li> \
+                     <ul> \
+                        <li>Generates new knowledge,</li> \
+                        <li>Answers whether a previous observation can be replicated,</li> \
+                        <li>Documents if previous findings can be applied to a different population, or</li> \
+                        <li>Determines if improved measurement techniques can clarify a relationship</li> \
+                     </ul> \
+                  <li>Provides relevance of research to clinical pharmacy</li> \
+                  <li>Includes 3 relevant citations in appropriate format</li> \
+               </ul> \
+         </div> \
+         <div class='col-md-2'> \
+             <input type='radio' name='q3' value='0'/> 0</br> \
+             <input type='radio' name='q3' value='1'/> 1</br> \
+             <input type='radio' name='q3' value='2'/> 2</br> \
+             <input type='radio' name='q3' value='3'/> 3 \
+         </div> \
+     </div> \
+     <div class='row border1'> \
+         <div class='col-md-10'> \
+             <b>Study Design</b>- The selected study design: \
+               <ul> \
+                  <li>Matches the description of what is stated elsewhere in the proposal</li> \
+                  <li>Target patient population clearly defined and reasonable</li> \
+               </ul> \
+         </div> \
+         <div class='col-md-2'> \
+             <input type='radio' name='q4' value='0'/> 0</br> \
+             <input type='radio' name='q4' value='1'/> 1</br> \
+             <input type='radio' name='q4' value='2'/> 2</br> \
+             <input type='radio' name='q4' value='3'/> 3 \
+         </div> \
+     </div> \
+     <div class='row border1'> \
+         <div class='col-md-10'> \
+             <b>Data Collection and Analysis plan</b>- The data collection and analysis plans are: \
+               <ul> \
+                  <li>Deliberate and systematic</li> \
+                  <li>Reasonable for time frame</li> \
+                  <li>Identify statistical software or support to be utilized</li> \
+               </ul> \
+         </div> \
+         <div class='col-md-2'> \
+             <input type='radio' name='q5' value='0'/> 0</br> \
+             <input type='radio' name='q5' value='1'/> 1</br> \
+             <input type='radio' name='q5' value='2'/> 2</br> \
+             <input type='radio' name='q5' value='3'/> 3 \
+         </div> \
+     </div> \
+     <div class='row border1'> \
+         <div class='col-md-10'> \
+             <b>Timeline and responsibilities of each team member are:</b> \
+               <ul> \
+                  <li>Clearly defined</li> \
+                  <li>Reasonable to meet deadlines</li> \
+               </ul> \
+         </div> \
+         <div class='col-md-2'> \
+             <input type='radio' name='q6' value='0'/> 0</br> \
+             <input type='radio' name='q6' value='1'/> 1</br> \
+             <input type='radio' name='q6' value='2'/> 2</br> \
+             <input type='radio' name='q6' value='3'/> 3 \
+         </div> \
+     </div> \
+     <div class='row border1'> \
+         <div class='col-md-10'> \
+             <b>Readability and Grammar- The proposal</b> \
+               <ul> \
+                  <li>Clearly communicates thoughts and concepts,</li> \
+                  <li>Uses concise writing; avoids repetition and wordiness,</li> \
+                  <li>Utilizes professional language and style, and</li> \
+                  <li>Is free of grammatical or technical errors.</li> \
+               </ul> \
+         </div> \
+         <div class='col-md-2'> \
+             <input type='radio' name='q7' value='0'/> 0</br> \
+             <input type='radio' name='q7' value='1'/> 1</br> \
+             <input type='radio' name='q7' value='2'/> 2</br> \
+             <input type='radio' name='q7' value='3'/> 3 \
+         </div> \
+     </div> \
+     <div class='row border1'> \
+         <div class='col-md-10'> \
+             <b>Overall Impression</b>- The overall impression evaluates the entire abstract, as a whole. It is not a mathematical representation of the individual scores above.  \
+         </div> \
+         <div class='col-md-2'> \
+             <input type='radio' name='q7' value='poor'/> Poor</br> \
+             <input type='radio' name='q7' value='average'/> Average</br> \
+             <input type='radio' name='q7' value='very_good'/> Very good</br> \
+             <input type='radio' name='q7' value='excellent'/> Excellent \
+         </div> \
+     </div> \
+     <div class='row border1'> \
+         <div class='col-md-10'> \
+             <b>Overall comments</b>- Please provide your overall comments for the authors to consider.  \
+         </div> \
+         <div class='col-md-2'> \
+             <input type='text' id='comment'/> \
+         </div> \
+     </div> \
+     <div class='row border1'> \
+         <div class='col-md-2 pull-right'> \
+             <button type='button' class='btn btn-success'>Save</button> \
+             <button type='button' class='btn btn-danger'>Publish</button> \
+         </div> \
+     </div> \
+</div>";
+};
+
+$(document).ready(function() {
+  proxyId = $("#proxyId").text();
+  var projectsGetUrl = '/api/v1/reviewer/projects';
+  var columnsGetUrl = '/api/v1/reviewer/projects/columns';
+
+  modal = $("#editor-modal");
+  editor = $("#editor");
+  editorTitle = $("#editorTitle");
+
+  $.get(projectsGetUrl).done(function(result) {
+    var columns = [
+      { name: "projectId", title: "Project ID", visible: true, breakpoints: "xs" },
+      { name: "title", title: "Title", vislble: true, style: {maxWidth: 240} },
+      { name: "reviewPublished", title: "Status", visible: true },
+      { name: "mentorUrl", title: "Project Link", visible: true, type: "text", formatter: formatter.wrapAsLink },
+      { name: "links", title: "Proposal Link", visible: true, type: "object", formatter: formatter.links },
+    ];
+
+    var formattedProjects = [];
+    var projectsCount = [];
+
+    var showDeleted = getURLParameter("deleted");
+    if (!showDeleted) {
+      for (var i in result.data.formattedProjects) {
+        var formattedProject = result.data.formattedProjects[i];
+        if (formattedProject.active) {
+          formattedProjects.push(formattedProject);
+        }
+      }
+      projectsCount = result.data.meta.countActive;
+    } else {
+      formattedProjects = result.data.formattedProjects;
+      projectsCount = result.data.meta.count;
+    }
+
+    console.log(formattedProjects);
+
+    ftable = FooTable.init('#projectsTable', {
+      columns: columns,
+      rows: formattedProjects,
+      sorting: {
+        enabled: true
+      },
+      filtering: {
+        enabled: true
+      },
+    });
+
+    var metaColumns = [
+      { name: "item", title: "", type: "object", formatter: metasFormatter }
+    ];
+    var metaRows = [{
+      item: {
+        key: "count",
+        value: projectsCount
+      }
+    }];
+
+    
+  }).fail(function(err) {
+    if (err.status == 401) {
+      alert('Unauthorized');
+      location.href = '/admin/login';
+    } else {
+      alert('Error');
+    }
+  });
+});
+</script>

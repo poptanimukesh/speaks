@@ -1,0 +1,14 @@
+{> "layouts/master" /}
+
+{<title}
+PharmD Scholarly Project Symposium
+{/title}
+
+{<titleShort}
+Symposium
+{/titleShort}
+
+{<body}
+{> "templates/public/symposium/info" /}
+{> "templates/public/symposium/projects" /}
+{/body}

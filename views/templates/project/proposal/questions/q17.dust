@@ -1,0 +1,10 @@
+<div id="q17-wrapper" class="wrapper">
+    <label id="q17-label">
+      <span class="question">
+        Why did you select the Project Advisor(s) for this project?
+      </span>
+      <span class="error"></span>
+    </label>
+    <textarea id="q17" class="form-control" rows="3"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>{details.q17}</textarea>
+</div>

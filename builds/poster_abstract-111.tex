@@ -1,0 +1,57 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,top=1in,bottom=0.53in,left=0.53in,right=0.53in]{geometry}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{authblk}
+\usepackage{fancyhdr}
+%\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{sansmath}
+\usepackage{listingsutf8}
+\lstset{inputencoding=utf8x,extendedchars=\true,basicstyle=\normalfont,columns=fullflexible,breaklines=true,breakindent=0em}
+
+\setlength\parindent{0pt}
+
+\fancypagestyle{fancyfirst}
+{
+	\renewcommand{\headrulewidth}{0pt}
+	\fancyhf{}
+	\chead{}
+	\lhead{}
+	\rhead{Project ID: 111
+	}
+	\lfoot{}
+	\rfoot{}
+}
+
+\title{\vspace{-1cm}asdf
+}
+\author[]{asdf sdf (asdf@usc.edu)}\author[]{asd fsadf (asdf@asdf.com)}\author[]{Mukesh Poptani (poptani@usc.edu)}
+\affil[]{}
+\date{}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancyfirst}
+{\bfseries\large Background / Purpose}
+\begin{lstlisting}[mathescape]
+dfgdf
+\end{lstlisting}
+\hfill \\
+{\bfseries\large Methods}
+\begin{lstlisting}[mathescape]
+
+\end{lstlisting}
+\hfill \\
+{\bfseries\large Results}
+\begin{lstlisting}[mathescape]
+
+\end{lstlisting}
+\hfill \\
+{\bfseries\large Conclusions}
+\begin{lstlisting}[mathescape]
+
+\end{lstlisting}
+\hfill \\
+\end{document}

@@ -1,0 +1,137 @@
+<script type="text/javascript">
+
+$(document).ready(function() {
+  $("#addNewMentor").click(function() {
+    $("#addNewMentor").attr("disabled", "disabled");
+
+    var clone = $("#newMentorRow").clone().removeClass("hidden");
+
+    var mentorRowId = "mentorRow" + mentorRowIndex;
+    $(clone).removeAttr("id");
+    $(clone).attr("data-id", mentorRowId);
+    $(clone).find("*[data-id=removeRow]").attr("data-target", mentorRowId).click(deleteMentorRow);
+    $(clone).find("*[data-id=mentorRowIndex]").text(mentorRowIndex + 1);
+    $(clone).find("*[data-id=email]").on('change', onEmailChange);
+
+    ++mentorRowIndex;
+    $("#mentorRows").append($(clone));
+    upMentorSize();
+  });
+});
+
+var deleteMentorRow = function() {
+    rowId = $(this).attr("data-target");
+    $("*[data-id=" + rowId + "]").remove();
+    $("#addNewMentor").removeAttr("disabled");
+    --mentorRowIndex;
+    downMentorSize();
+};
+
+var upMentorSize = function() {
+    ++mentorSize;
+    $("#mentorSize").text(mentorSize);
+};
+
+var downMentorSize = function() {
+    --mentorSize;
+    $("#mentorSize").text(mentorSize);
+};
+
+var resetMentorWrapper = function(wrapper) {
+  wrapper.find("*[data-id=firstName]").val("");
+  wrapper.find("*[data-id=lastName]").val("");
+  wrapper.find("*[data-id=phoneNumber]").val("");
+  wrapper.find("*[data-id=jobTitle]").val("");
+  wrapper.find("*[data-id=workplace]").val("");
+
+  wrapper.find("*[data-id=firstName]").attr('disabled', 'disabled');
+  wrapper.find("*[data-id=lastName]").attr('disabled', 'disabled');
+  wrapper.find("*[data-id=phoneNumber]").attr('disabled', 'disabled');
+  wrapper.find("*[data-id=jobTitle]").attr('disabled', 'disabled');
+  wrapper.find("*[data-id=workplace]").attr('disabled', 'disabled');
+
+  mentors2 = {
+    operation: "none",
+    updates: []
+  };
+};
+
+var onEmailChange = function(e) {
+  var target = e.target;
+  var elem = $(target);
+  var wrapper = elem.parent().parent();
+  var url = '/api/v1/search/lecturers?email=' + target.value;
+
+  resetMentorWrapper(wrapper);
+
+  var approved = check($(target), $(target).parent(), rule.email);
+  if (!approved) {
+    return;
+  }
+
+  $.get(url).done(function(result) {
+    if (result.data && Object.keys(result.data).length > 0) {
+      fetchedMentor = result.data;
+      onLecturerFound(e, result.data);
+    } else {
+      onLecturerNotFound(e);
+    }
+  }).fail(function(err) {
+    alert('Error');
+  });
+};
+
+var onLecturerFound = function(e, data) {
+  var target = e.target;
+  var elem = $(target);
+  var wrapper = elem.parent().parent();
+
+  fillOrEnable("firstName", wrapper, data);
+  fillOrEnable("lastName", wrapper, data);
+  fillOrEnable("phoneNumber", wrapper, data);
+  fillOrEnable("jobTitle", wrapper, data);
+  fillOrEnable("workplace", wrapper, data);
+};
+
+var fillOrEnable = function(key, wrapper, data) {
+  if (data[key]) {
+    wrapper.find("*[data-id=" + key + "]").val(data[key]);
+  } else {
+    wrapper.find("*[data-id=" + key + "]").removeAttr('disabled');
+    mentors2.operation = "update";
+    mentors2.updates.push(key);
+  }
+};
+
+var onLecturerNotFound = function(e) {
+  var target = e.target;
+  var elem = $(target);
+  var wrapper = elem.parent().parent();
+
+  wrapper.find("*[data-id=firstName]").removeAttr('disabled');
+  wrapper.find("*[data-id=lastName]").removeAttr('disabled');
+  wrapper.find("*[data-id=phoneNumber]").removeAttr('disabled');
+  wrapper.find("*[data-id=jobTitle]").removeAttr('disabled');
+  wrapper.find("*[data-id=workplace]").removeAttr('disabled');
+
+  mentors2.operation = "insert";
+};
+
+/*
+var emailElem = $("#mentorRows *[data-type=mentorRow").eq(0).find("*[data-id=email]");
+var emailTest = {
+    required: true,
+    min: 10,
+	max: 10,
+	numeric: true
+};
+var result = approve.value(emailElem.val(), emailTest)
+if (!result.approved) {
+    emailElem.siblings('label').text(result.errors[0]);
+	emailElem.closest('div').addClass('has-error');
+} else {
+	emailElem.siblings('label').text('');
+	emailElem.closest('div').removeClass('has-error');
+}
+*/
+</script>

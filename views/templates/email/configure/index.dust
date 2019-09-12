@@ -1,0 +1,242 @@
+{> "layouts/master" /}
+
+{<body}
+<div class="hidden" id="emailtemplates">{emailtemplates[0]}</div>
+<div class="row">
+  <br/><br/>
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h5 class="margin0">Select Email Template</h5></div>
+        <div style="margin: 1em;width: 30%;">
+            <select id="templateCategory" class="form-control">
+                <option value="select">Select</option>
+                <option value="project_creation_advisor">Project Creation Admin</option>
+                <option value="project_creation_student">Project Creation Student</option>
+                <option value="reviewer_publish">Reviewer Publish Score</option>
+                <option value="proposal_submission">Proposal Submission</option>
+            </select>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading"><h5 class="margin0">Configure Email Template</h5></div>
+        <div class="panel-body" style="padding: 0;">
+          <div id="newTeamMemberRow" class="" data-type="teamRow" style="padding: 10px;">
+            <div class="row">
+                
+                <div class="col-xs-6 col-sm-6">
+                    <h5 class="inline-block">CC List</h5> <label class="inline-block control-label"></label>
+                    <input id="cc_list" type="text" class="form-control">
+                </div>
+                <div class="col-xs-6 col-sm-6">
+                    <h5 class="inline-block">BCC List</h5> <label class="inline-block control-label"></label>
+                    <input id="bcc_list" type="text" class="form-control">
+                </div>
+                <div class="col-xs-12 col-sm-8">
+                    <h5 class="inline-block">Subject</h5> <label class="inline-block control-label"></label>
+                    <input id="subject" type="text" class="form-control">
+                </div>
+                <div class="col-xs-12 col-sm-12">
+                  <h5 class="inline-block"><strong>Email Body</strong></h5> <label class="inline-block control-label"></label>
+                  <textarea id="email_body" class="form-control" rows="12"></textarea>
+                </div>
+
+                <div class="col-xs-12 col-sm-12" style="padding-top: 10px;">
+                  <button type="button" id="btnSaveEmail" class="btn btn-success pull-right">Save</button>
+                  <a href="/admin/login" class="btn btn-default pull-right" style="margin-right: 5px;">Back</a>
+                </div>
+            </div>
+
+            <h4>Email Test</h4>
+            <p>If you'd like to test out your template, enter an email address and an example e-mail will be sent</p>
+            <p>Only the recipient(s) below will receive the test email</p>
+            <div class="row">
+
+              <div class="col-xs-12 col-sm-12" style="padding-top: 10px;">
+                  <input type="button" id="btnTestEmail" class="btn btn-success" value="Test Email" style="float: right" />
+                  <input type="button" id="btnSendEmail" class="btn btn-success" value="Send Email" style="float: right" />
+                  <div style="overflow: hidden; padding-right: .5em;">
+                     <input type="text" class="form-control" style="width: 100%;" id="toMailList" placeholder="Enter Recipeint Email Id"/>
+                  </div>
+              </div>
+            </div>
+            <br/>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<input type="hidden" id="_csrf" name="_csrf" value="{_csrf}"/>
+
+{+script /}
+{/body}
+
+
+{<script}
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+  $("#btnSaveEmail").click(function() {
+      var data = {
+        email_type: "",
+        cc_email_id: "",
+        bcc_email_id: "",
+        email_subject: "",
+        email_body: ""
+      };
+
+      data.email_type = $("#templateCategory").val();
+      data.cc_email_id = $("#cc_list").val();
+      data.bcc_email_id = $("#bcc_list").val();
+      data.email_subject = $("#subject").val();
+      data.email_body = $("#email_body").val();
+
+      $.ajax({
+        url: '/api/v1/project/emailupdate',
+        type: 'POST',
+        dataType: 'json',
+        data: data
+      }).done(function(data, status) {
+        alert('Success');
+      }).fail(function(err) {
+        alert('Error');
+        document.write(err.responseText);
+      });
+  });
+
+  $("#btnTestEmail").click(function() {
+
+    var data = {
+        to: "",
+        email_subject: "",
+        email_body: ""
+    };
+
+    data.to = $("#toMailList").val();
+    data.email_subject = $("#subject").val();
+    data.email_body = $("#email_body").val();
+
+    $.ajax({
+      url: '/api/v1/email/templates/sendemail',
+      type: 'POST',
+      dataType: 'json',
+      data: data
+    }).done(function(result) {
+      if(result.data == true)
+        alert(result.message);
+    }).fail(function(err) {
+      alert('Error');
+      document.write(err.responseText);
+    });
+  });
+
+
+  $("#btnSendEmail").click(function() {
+
+    var projectsGetUrl = '/api/v1/admin/projects';
+
+    $.get(projectsGetUrl).done(function(result) {
+      var formattedProjects = result.data.formattedProjects;
+      for(var i=0; i < formattedProjects.length; i++) {
+        if(formattedProjects[i].projectId >= 269 && formattedProjects[i].projectId <= 349) {
+            var data = {
+                to: "",
+                email_subject: "",
+                email_body: ""
+            };
+
+            var title = formattedProjects[i].title;
+
+            var team = formattedProjects[i].teamMembers.split(",");
+            var teamEmail = "";
+            var teamMembers = "";
+            for(var j=0; j<team.length; j++) {
+                teamMembers += team[j];
+                var email = team[j].split("(");
+                teamEmail += email[1].substring(0, email[1].length-1) + ";";
+            }
+            /*console.log(teamEmail + "......." + formattedProjects[i].studentUrl);
+
+            data.to = teamEmail;
+            data.email_subject = title + " : Project Unique Link";
+            data.email_body = "Hello,<br><br>  Your project has been created successfully.<br> You can access your project using the link: http://pharmdscholarlyproject.usc.edu" + formattedProjects[i].studentUrl + " <br><br>   Regards,<br> Scholarly Project Committee";
+
+            $.ajax({
+              url: '/api/v1/email/templates/sendemail',
+              type: 'POST',
+              dataType: 'json',
+              data: data
+            }).done(function(result) {
+              if(result.data == true)
+                console.log("Student " + result.message);
+            }).fail(function(err) {
+              alert('Error');
+              document.write(err.responseText);
+            });*/
+
+
+
+            var mentorstr = formattedProjects[i].mentor.split(",");
+            var mentorEmail = "";
+            for(var j=0; j<mentorstr.length; j++) {
+                var email = mentorstr[j].split("(");
+                mentorEmail += email[1].substring(0, email[1].length-1) + ";";
+            }
+            console.log(formattedProjects[i].projectId + "," + title + "," + teamMembers + "," + mentorEmail + ",http://pharmdscholarlyproject.usc.edu" + formattedProjects[i].mentorUrl);
+
+            /*data.to = mentorEmail;
+            data.email_subject = title + " : Project Unique Link";
+            data.email_body = "Dear PharmD Scholarly Project Advisor,<br><br>   You are receiving this email because you have been identified as a PharmD Scholarly Project Advisor for a group of students in the USC School of Pharmacy.  <br>Please use this unique link http://pharmdscholarlyproject.usc.edu" + formattedProjects[i].mentorUrl + " to access your group's proposal, provide feedback to your group, and add in important advisor information for submission.  <br>Thank you for working with our students.<br><br>   Regards,<br> Scholarly Project Committee";
+
+            $.ajax({
+              url: '/api/v1/email/templates/sendemail',
+              type: 'POST',
+              dataType: 'json',
+              data: data
+            }).done(function(result) {
+              if(result.data == true)
+                console.log("Mentor " + result.message);
+            }).fail(function(err) {
+              alert('Error');
+              document.write(err.responseText);
+            });*/
+
+        }
+      }
+    });
+
+  });
+
+  
+    
+  $("#templateCategory").on("change", function() {
+       var selectedCategory = this.value;
+       var templatesGetUrl = "/api/v1/email/templates";
+       $.get(templatesGetUrl).done(function(result) {
+        for(i=0; i<result.data.length; i++) {
+          if(selectedCategory == result.data[i].EmailType){
+            populateFields(result.data[i]);
+          }
+        }
+      }).fail(function(err) {
+        if (err.status == 401) {
+          alert('Unauthorized');
+          location.href = '/admin/login';
+        } else {
+          alert('Error');
+        }
+      });
+  });
+
+  function populateFields(templateObj){
+    $("#cc_list").val(templateObj.CCEmailId);
+    $("#bcc_list").val(templateObj.BCCEmailId);
+    $("#subject").val(templateObj.EmailSubject);
+    $("#email_body").val(templateObj.EmailBody);
+  }
+
+});
+
+</script>
+{/script}

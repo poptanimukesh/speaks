@@ -1,0 +1,11 @@
+<div id="q37-wrapper" class="wrapper">
+    <label id="q37-label">
+      <span class="question">
+        Please explain your rationale for why your study does or does not require IRB approval.
+      </span>
+      <span class="error"></span>
+    </label>
+    <textarea id="q37" class="form-control" rows="3"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+    {details.q37}</textarea>
+</div>

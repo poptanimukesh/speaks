@@ -1,0 +1,84 @@
+<div id="q23-wrapper" class="wrapper">
+    <label id="q23-label">
+      <span class="question">
+        Which of the following describes your area of practice/work? Please check ALL that apply.
+      </span>
+      <span class="error"></span>
+    </label>
+    <div class="radio">
+        <label>
+            <input type="radio" name="radio-q23" id="radio-q23" value="0"
+              {@eq key=details.q23 value="0"} checked {/eq}
+              {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Chain community pharmacy
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q23" id="radio-q23" value="1"
+            {@eq key=details.q23 value="1"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Independent community pharmacy
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q23" id="radio-q23" value="2"
+            {@eq key=details.q23 value="2"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Inpatient hospital
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q23" id="radio-q23" value="3"
+            {@eq key=details.q23 value="3"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Ambulatory care
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q23" id="radio-q23" value="4"
+            {@eq key=details.q23 value="4"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Pharmaceutical industry
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q23" id="radio-q23" value="5"
+            {@eq key=details.q23 value="5"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Clinical faculty
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q23" id="radio-q23" value="6"
+            {@eq key=details.q23 value="6"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Pharmaceutical sciences faculty
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q23" id="radio-q23" value="7"
+            {@eq key=details.q23 value="7"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Regulatory sciences faculty
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q23" id="radio-q23" value="8"
+            {@eq key=details.q23 value="8"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Health economics faculty
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q23" id="radio-q23" value="9"
+            {@eq key=details.q23 value="9"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Non-pharmacist health care provider, please specify <br/>
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q23" id="radio-q23" value="10"
+            {@eq key=details.q23 value="10"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Public Health
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q23" id="radio-q23" value="11"
+            {@eq key=details.q23 value="11"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Other <br/>
+        </label><br/>
+            <input type="text" name="q23po" id="q23po" class="form-control" value="{details.q23po}"
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}/>
+    </div>
+</div>

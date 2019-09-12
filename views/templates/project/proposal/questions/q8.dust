@@ -1,0 +1,11 @@
+<div id="q8-wrapper" class="wrapper">
+    <label id="q8-label">
+      <span class="question">
+        State the significance/background of the problem that your project addresses. Please cite a minimum of 3 references in AMA citation style used to support your background. (Approximately 300 words)
+      </span>
+      <span class="error"></span>
+    </label>
+    <textarea id="q8" class="form-control" rows="15"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+    {details.q8}</textarea>
+</div>

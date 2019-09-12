@@ -1,0 +1,42 @@
+<br/>
+<div id="projectMentorsWrapper">
+  <h5 class="inline-block"><strong>Project Advisor</strong></h5> <label class="inline-block control-label"></label>
+</div>
+<div id="mentorRows" data-id="mentorRows">
+</div>
+<button id="addNewMentor" class="btn btn-default"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp; Add Project Advisor</button>
+<br/>
+<div id="newMentorRow" class="hidden" data-type="mentorRow">
+  <form>
+    <div class="row">
+        <div class="col-xs-12">
+            <h5 class="pull-left">Project Advisor #<span data-id="mentorRowIndex"></span></h5>
+            <span class="pull-right"><button class="btn btn-default" data-id="removeRow"><i class="fa fa-remove" aria-hidden="true"></i></button></span>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <h5 class="inline-block">Email</h5> <label class="inline-block control-label"></label>
+            <input data-id="email" name='email' type="text" class="form-control" required="required">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <h5 class="inline-block">First Name</h5> <label class="inline-block control-label"></label>
+            <input data-id="firstName" type="text" class="form-control" required="required" disabled="disabled">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <h5 class="inline-block">Last Name</h5> <label class="inline-block control-label"></label>
+            <input data-id="lastName" type="text" class="form-control"  required="required" disabled="disabled">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <h5 class="inline-block">Phone Number</h5> <label class="inline-block control-label"></label>
+            <input data-id="phoneNumber" type="text" class="form-control" required="required" disabled="disabled">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <h5 class="inline-block">Job Title</h5> <label class="inline-block control-label"></label>
+            <input data-id="jobTitle" type="text" class="form-control" required="required" disabled="disabled">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <h5 class="inline-block">Institution Name / Workplace</h5> <label class="inline-block control-label"></label>
+            <input data-id="workplace" type="text" class="form-control" required="required" disabled="disabled">
+        </div>
+    </div>
+    <br/>
+</div>

@@ -1,0 +1,41 @@
+{
+  "name": "node",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "adaro": "~1.0.4",
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "~1.4.3",
+    "cryptr": "^3.0.0",
+    "debug": "~2.6.9",
+    "express": "~4.15.5",
+    "express-session": "^1.15.6",
+    "google-libphonenumber": "^3.1.15",
+    "http-errors": "^1.7.1",
+    "json2csv": "^4.2.1",
+    "latex": "0.0.1",
+    "lusca": "^1.6.1",
+    "mime": "^2.3.1",
+    "moment": "^2.22.2",
+    "morgan": "^1.9.1",
+    "multer": "^1.4.0",
+    "mysql": "^2.16.0",
+    "mysql2": "^1.6.1",
+    "node-latex": "^2.5.0",
+    "node-sass-middleware": "0.9.8",
+    "nodejs-nodemailer-outlook": "^1.1.0",
+    "nodemailer": "^4.6.8",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "q": "^1.5.1",
+    "sequelize": "^4.39.0",
+    "serve-favicon": "~2.4.5",
+    "string-format": "^0.5.0",
+    "underscore": "^1.9.1",
+    "variable-replacer": "^1.6.0"
+  }
+}

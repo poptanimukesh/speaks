@@ -1,0 +1,11 @@
+<div id="q9-wrapper" class="wrapper">
+    <label id="q9-label">
+      <span class="question">
+        What is your research question?
+      </span>
+      <span class="error"></span>
+    </label>
+    <textarea id="q9" class="form-control" rows="5"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+    {details.q9}</textarea>
+</div>

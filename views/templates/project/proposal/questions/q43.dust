@@ -1,0 +1,94 @@
+<div id="q43-wrapper" class="wrapper">
+    <label id="q43-label">Please indicate the area of practice to which your scholarly work most closely relates.</label>
+    <div class="radio">
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="0">
+            Academia
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="1">
+            Acute care pharmacy practice
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="2">
+            Ambulatory care pharmacy practice
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="3">
+            Cardiology
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="4">
+            Community pharmacy practice
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="5">
+            Critical care
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="6">
+            Endocrinology
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="7">
+            Geriatrics
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="8">
+            Health economics
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="9">
+            Health policy
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="10">
+            Hematology/Oncology
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="11">
+            Infectious disease
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="12">
+            Pain and palliative care
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="13">
+            Pediatrics
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="14">
+            Pharmaceutical Industry
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="15">
+            Pharmacogenomics
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="16">
+            Pharmacokinetics/Pharmacodynamics
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="17">
+            Psychiatry/Neurology
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="18">
+            Public health
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="19">
+            Specialty pharmacy
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="20">
+            Toxicology
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q43" id="radio-q43" value="21">
+            Other <br/>
+            <input type="text" class="form-control" />
+        </label><br/>
+    </div>
+</div>

@@ -1,0 +1,570 @@
+{> "layouts/master" /}
+
+{<body}
+<div class="row">
+    <div class="col-xs-12 col-sm-12">
+      {@eq key=role value="admin"}
+        <div id="title-wrapper" class="">
+            <label id="title-label">Title</label>
+            <input id="title" type="text" class="form-control" value="{details.title}"/>
+        </div>
+        </br>
+        <div id="description-wrapper" class="">
+            <label id="description-label">Description</label>
+            <textarea id="description" class="form-control" rows="7">{details.description}</textarea>
+        </div>
+        <br/>
+        <button id="updateTitleAndDescription" type="button" class="btn btn-success">Update details</button>
+      {:else}
+        <h3>{details.title}</h3>
+        <p>{details.description}</p>
+      {/eq}
+    </div>
+</div>
+<br/><br/>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-8">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12">
+                <div class="panel panel-default">
+                <div class="panel-heading"><h5 class="margin0">Symposium Title</h5></div>
+                    <div style="margin: 1em;">
+                        {?details.symposium_title}
+                            <input style="margin-top: 0.5em" class="form-control" type="text" id="symposiumTitle" value="{details.symposium_title}"/>
+                        {/details.symposium_title}
+
+                        {^details.symposium_title}
+                            <input style="margin-top: 0.5em" class="form-control" type="text" id="symposiumTitle" value="{details.title}"/>
+                        {/details.symposium_title}
+
+                        &nbsp;&nbsp;&nbsp;
+                        <button style="margin-top: 0.5em" id="saveSymposiumTitle" class="btn btn-default">Save</button>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                <div class="panel-heading"><h5 class="margin0">Project Category</h5></div>
+                    <div style="margin: 1em;">
+                        {>"templates/project/partials/category"/}
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                <div class="panel-heading"><h5 class="margin0">Proposal</h5></div>
+                    <div style="margin: 1em;">
+                      {@eq key=details.proposal_locked value="true"}
+                        <a id="btnViewProposal" style="margin-bottom: 0.5em;" class="btn btn-default" href="/project/{proxyId}/documents/proposal">View Proposal</a> <br/>
+                      {:else}
+                        <a id="btnEditProposal" style="margin-bottom: 0.5em;" class="btn btn-default" href="/project/{proxyId}/proposal-text">Edit Proposal</a> <br/>
+                      {/eq}
+                      
+                      {@eq key=role value="student"}
+                            {@eq key=details.r1_published value="true"}
+                                {@eq key=details.r2_published value="true"}
+                                    <a target="_blank" href="/project/{proxyId}/proposal-review">Click here</a> to check Proposal Review Scores<br/>
+                                    {@eq key=details.requiresResumbission value="true"}
+                                        <span class="text-danger">Requires resubmission</span>
+                                    {/eq}
+                                {/eq}
+                            {/eq}
+                      {/eq}
+
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h5 class="margin0">Poster</h5></div>
+                    <div style="margin: 1em;">
+                      {@eq key=details.abstract_locked value="true"}
+                        <a id="btnViewAbstract" style="margin-bottom: 0.5em;" class="btn btn-default" href="/project/{proxyId}/documents/poster-abstract">View Abstract</a> <br/>
+                      {:else}
+                        <a id="btnUploadAbstract" style="margin-bottom: 0.5em;" class="btn btn-default" href="/project/{proxyId}/poster-abstract">Edit Abstract</a> <br/>
+                      {/eq}
+                      {@eq key=details.poster_submitted value="true"}
+                        <a id="btnViewPoster" class="btn btn-default" href="/project/{proxyId}/documents/poster">View Poster</a>
+                      {:else}
+                        <a id="btnUploadPoster" class="btn btn-default" href="/project/{proxyId}/upload?type=poster">Upload Poster</a>
+                      {/eq}
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h5 class="margin0">Presentations</h5></div>
+                    <table id="presentationsTable" class="table" data-sorting="true">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h5 class="margin0">Project Info</h5></div>
+            <div class="list-group">
+                <div class="list-group-item border0">
+                    <h5 style="display: inline">Project ID:</h5> {project.projectId}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h5 class="margin0">Project Status</h5></div>
+            <div class="list-group">
+                <div class="list-group-item border0">
+                    {! TODO: Sort out the if condition !}
+                    {?details.projectCategory}
+                      <div><h5 style="display: inline">Project Category: </h5><span class="text-success">Selected</span></div>
+                    {:else}
+                      <div><h5 style="display: inline">Project Category: </h5><span class="text-danger">Not Selected</span></div>
+                    {/details.projectCategory}
+                    {@eq key=details.proposal_locked value="true"}
+                        <div><h5 style="display: inline">Proposal: </h5><span class="text-success">Submitted</span></div>
+                    {:else}
+                        <div><h5 style="display: inline">Proposal: </h5><span class="text-danger">Not Submitted</span></div>
+                    {/eq}
+                    {@eq key=details.abstract_locked value="true"}
+                        <div><h5 style="display: inline">Abstract: </h5><span class="text-success">Submitted</span></div>
+                    {:else}
+                        <div><h5 style="display: inline">Abstract: </h5><span class="text-danger">Not Submitted</span></div>
+                    {/eq}
+                    {@eq key=details.poster_submitted value="true"}
+                        <div><h5 style="display: inline">Poster: </h5><span class="text-success">Submitted</span></div>
+                    {:else}
+                        <div><h5 style="display: inline">Poster: </h5><span class="text-danger">Not Submitted</span></div>
+                    {/eq}
+                    {! <div><h5 style="display: inline">Proposal: </h5><span class="text-danger">Not Submitted</span></div> !}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-4">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h5 class="margin0">Team Members</h5></div>
+                    <div class="list-group">
+                        {#team.members}
+                        <div class="list-group-item border0">
+                            <div>{FirstName} {LastName}</div>
+                            <div>{Email}</div>
+                        </div>
+                        {/team.members}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h5 class="margin0">Project Advisor{@gt key=mentors.members.length value=1}s{/gt}</h5></div>
+                    <div class="list-group">
+                      {#mentors.members}
+                      <div class="list-group-item border0">
+                          <div>{FirstName} {LastName}</div>
+                          <div>{Email}</div>
+                      </div>
+                      {/mentors.members}
+                      <div class="list-group-item border0">
+                        <a class="btn btn-primary" href="/project/{proxyId}/addmentor">Add Project Advisor</a>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            {@eq key=role value="admin"}
+                <div class="col-xs-12 col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h5 class="margin0">Project Reviewers</h5></div>
+                        <div style="margin: 1em;">
+                            Reviewer 1 :<br/>
+                            <select id="reviewer1Category" class="form-control">
+                                <option value="select">Select</option>
+                                {#reviewers.result}
+                                    <option value="{reviewer}">{reviewer}</option>
+                                {/reviewers.result}
+                            </select>
+
+                            <br/>Reviewer 2 :<br/>
+                            <select id="reviewer2Category" class="form-control">
+                                <option value="select">Select</option>
+                                {#reviewers.result}
+                                    <option value="{reviewer}">{reviewer}</option>
+                                {/reviewers.result}
+                            </select>
+
+                            <button style="margin-top: 0.5em" id="updateReviewerBtn" class="btn btn-default">Save</button>
+                        </div>
+                    </div>
+                </div>
+            {/eq}
+        </div>
+    </div>
+</div>
+
+{@eq key=role value="student"}
+{?details.mCmt}
+<div class="panel panel-warning">
+    <div class="panel-heading">
+        <strong>Comments from Mentor</strong>
+    </div>
+    <div class="panel-body">
+    <p class="comment">{details.mCmt}</p>
+    </div>
+</div>
+{/details.mCmt}
+
+{?details.aCmt}
+<div class="panel panel-danger">
+    <div class="panel-heading">
+        <strong>Comments from Scholarly Project Committee</strong>
+    </div>
+    <div class="panel-body">
+    <p class="comment">{details.aCmt}</p>
+    </div>
+</div>
+{/details.aCmt}
+{/eq}
+
+{@eq key=role value="admin"}
+{?details.sCmt}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <strong>Comments from Team</strong>
+    </div>
+    <div class="panel-body">
+    <p class="comment">{details.sCmt}</p>
+    </div>
+</div>
+{/details.sCmt}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <div id="aCmt-wrapper">
+            <label id="aCmt-label">Enter Comments for team</label>
+            <textarea id="aCmt" class="form-control" rows="5">{details.aCmt}</textarea>
+            <br/>
+            <input id="aCmt-update" type="button" class="btn btn-danger btn-sm" value="Update" />
+            </br><span>Clear Comments</span><br/>
+            <input id="aCmt-clear" type="button" class="btn btn-default btn-sm" value="Admin" />
+            <input id="sCmt-adminClear" type="button" class="btn btn-default btn-sm" value="Student" />
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(e) {
+    $("#aCmt-update").click(aCmtUpdate);
+    $("#aCmt-clear").click(aCmtClear);
+    $("#sCmt-adminClear").click(sCmtAdminClear);
+
+    {?details.r1}
+      if ($('#reviewer1Category option[value="{details.r1}"]').length > 0) {
+        $('#reviewer1Category option[value="{details.r1}"]').prop('selected', 'selected');
+      }
+    {/details.r1}
+
+    {?details.r2}
+      if ($('#reviewer2Category option[value="{details.r2}"]').length > 0) {
+        $('#reviewer2Category option[value="{details.r2}"]').prop('selected', 'selected');
+      }
+    {/details.r2}
+
+    $("#updateReviewerBtn").click(function() {
+    var proxyId = $("#proxyId").text();
+    var r1Category = $("#reviewer1Category").val();
+    var r2Category = $("#reviewer2Category").val();
+    if (r1Category == "select" || r2Category == "select") {
+      alert('Select reviewer from list');
+      return;
+    }
+
+    if (r1Category == r2Category) {
+      alert('Select different reviewers');
+      return;
+    }
+
+    $.ajax({
+        method: "PUT",
+        url: "/api/v1/project/" + proxyId + "/details",
+        data: {
+            r1: r1Category,
+            r2: r2Category,
+            _csrf: $("#_csrf").val()
+      }
+    }).done(function(results) {
+        alert('Success');
+      location.reload();
+    }).fail(function(err) {
+      alert('Error');
+    });
+  });
+
+});
+
+function aCmtUpdate(e) {
+    var proxyId = $("#proxyId").text();
+
+    var data = {
+        aCmt: $("#aCmt").val(),
+        _csrf: $("#_csrf").val()
+    };
+
+    $.ajax({
+        method: "PUT",
+        url: "/api/v1/project/" + proxyId + "/details",
+        data: data,
+    }).done(function(result) {
+        if (result.status == "error") {
+            alert('Error');
+        } else {
+            alert('Success');
+        }
+    }).fail(function(err) {
+        alert('Error');
+    });
+}
+
+function sCmtAdminClear(e) {
+    var proxyId = $("#proxyId").text();
+
+    var data = {
+        sCmt: "",
+        _csrf: $("#_csrf").val()
+    };
+
+    $.ajax({
+        method: "PUT",
+        url: "/api/v1/project/" + proxyId + "/details",
+        data: data,
+    }).done(function(result) {
+        if (result.status == "error") {
+            alert('Error');
+        } else {
+            alert('Success');
+        }
+    }).fail(function(err) {
+        alert('Error');
+    });
+}
+
+function aCmtClear(e) {
+    $("#aCmt").val("");
+    aCmtUpdate(e);
+}
+
+function success(result) {
+    console.log(result);
+}
+</script>
+{/eq}
+
+{@eq key=role value="student"}
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <div id="sCmt-wrapper">
+            <label id="sCmt-label">Enter Comments for Scholarly Project Committee</label>
+            <textarea id="sCmt" class="form-control" rows="5">{details.sCmt}</textarea>
+            <br/>
+            <input id="sCmt-clear" type="button" class="btn btn-default btn-sm" value="Clear" />
+            <input id="sCmt-update" type="button" class="btn btn-primary btn-sm" value="Update" />
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(e) {
+    $("#sCmt-update").click(sCmtUpdate);
+    $("#sCmt-clear").click(sCmtClear);
+});
+
+function sCmtUpdate(e) {
+    var proxyId = $("#proxyId").text();
+
+    var data = {
+        sCmt: $("#sCmt").val(),
+        _csrf: $("#_csrf").val()
+    };
+
+    $.ajax({
+        method: "PUT",
+        url: "/api/v1/project/" + proxyId + "/details",
+        data: data,
+    }).done(function(result) {
+      if (result.status == "error") {
+          alert('Error');
+      } else {
+          alert('Success');
+      }
+    }).fail(function(err) {
+        alert('Error');
+    });
+};
+
+function sCmtClear(e) {
+    $("#sCmt").val("");
+    sCmtUpdate(e);
+}
+</script>
+{/eq}
+
+{@eq key=role value="mentor"}
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <div id="mCmt-wrapper">
+            <label id="mCmt-label">Enter Comments for team</label>
+            <textarea id="mCmt" class="form-control" rows="5">{details.mCmt}</textarea>
+            <br/>
+            <input id="mCmt-clear" type="button" class="btn btn-default btn-sm" value="Clear" />
+            <input id="mCmt-update" type="button" class="btn btn-warning btn-sm" value="Update" />
+        </div>
+    </div>
+</div>
+{/eq}
+
+{@eq key=role value="admin"}
+<br/>
+<br/>
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+      <div class="panel panel-danger">
+          <div class="panel-heading">
+              <strong>Danger Zone!</strong>
+          </div>
+          <div class="panel-body">
+          <button class="btn btn-danger" id="deleteProjectButton">Delete Project</button>
+          </div>
+      </div>
+    </div>
+</div>
+{/eq}
+
+<br/>
+<div class="hidden" id="proxyId">{proxyId}</div>
+<input type="hidden" id="_csrf" value="{_csrf}"/>
+<div class="hidden" id="allDone">{proposal.alldone}</div>
+<div class="hidden" id="next">/project/{proxyId}/proposal/review</div>
+
+{>"templates/project/partials/presentation"/}
+{+scripts/}
+{/body}
+
+{<scripts}
+<script type="text/javascript">
+$(document).ready(function(e) {
+    $("#mCmt-update").click(mCmtUpdate);
+    $("#mCmt-clear").click(mCmtClear);
+    $("#btnUploadAbstract").click(onClickUploadAbstract);
+});
+
+console.log($("#allDone").text());
+if ($("#allDone").text() == "true") {
+    console.log("All Done!");
+    $("#btnReview").removeAttr("disabled");
+}
+
+$("#btnReview").click(function() {
+    window.location = $("#next").text();
+});
+
+function mCmtUpdate(e) {
+    var proxyId = $("#proxyId").text();
+
+    var data = {
+        mCmt: $("#mCmt").val(),
+        _csrf: $("#_csrf").val()
+    };
+
+    $.ajax({
+        method: "PUT",
+        url: "/api/v1/project/" + proxyId + "/details",
+        data: data,
+    }).done(function(result) {
+        if (result.status == "error") {
+            alert('Error');
+        } else {
+            alert('Success');
+        }
+    }).fail(function(err) {
+        alert('Error');
+    });
+}
+
+function mCmtClear(e) {
+    $("#mCmt").val("");
+    mCmtUpdate(e);
+}
+
+function onClickUploadAbstract(e) {
+    $("#fileChooserAbstract").click();
+}
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(e) {
+  $("#updateTitleAndDescription").click(function(e) {
+    var proxyId = $("#proxyId").text();
+
+    var data = {
+      title: $("#title").val(),
+      description: $("#description").val(),
+      _csrf: $("#_csrf").val()
+    };
+
+    $.ajax({
+        method: "PUT",
+        url: "/api/v1/project/" + proxyId + "/details",
+        data: data,
+    }).done(function(result) {
+        if (result.status == "error") {
+            alert('Error');
+        } else {
+            alert('Success');
+        }
+    }).fail(function(err) {
+        alert('Error');
+    });
+  });
+
+  $("#saveSymposiumTitle").click(function(e) {
+    var proxyId = $("#proxyId").text();
+
+    var data = {
+      symposium_title: $("#symposiumTitle").val(),
+      _csrf: $("#_csrf").val()
+    };
+
+    $.ajax({
+        method: "PUT",
+        url: "/api/v1/project/" + proxyId + "/details",
+        data: data,
+    }).done(function(result) {
+        if (result.status == "error") {
+            alert('Error');
+        } else {
+            alert('Success');
+        }
+    }).fail(function(err) {
+        alert('Error');
+    });
+  });
+
+});
+
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(e) {
+  var proxyId = $("#proxyId").text();
+
+  $("#deleteProjectButton").click(function(e) {
+    $.ajax({
+        method: "DELETE",
+        url: "/api/v1/project/" + proxyId,
+    }).done(function(result) {
+        if (result.status == "error") {
+            alert('Error');
+        } else {
+            alert('Success');
+        }
+    }).fail(function(err) {
+        alert('Error');
+    });
+  });
+});
+</script>
+{/scripts}

@@ -1,0 +1,60 @@
+{> "layouts/master" /}
+
+{<body}
+
+<br/>
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-6">
+        <h4>{@message type="content" key="reviewMessageTitle" /}</h4>
+        <p>{@message type="content" key="reviewMessage" /}</p>
+
+        <br/>
+        {#project.page.sections}
+            {! <button enabled="{enabled}" type="button" class="list-group-item"> !}
+            <div class="list-group-item">
+                {text}
+                {! TODO: Insert the completion icons logic here !}
+                {! {?status} !}
+                    <span class="pull-right status-success">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                    </span>
+                {! {/status} !}
+            </div>
+            {! </button> !}
+        {/project.page.sections}
+
+        <br/>
+        <br/>
+        <a href="/project/{project.project_id}/proposal?alldone=true" class="btn btn-default">{@message type="content" key="back"/}</a>
+        <button id="btnDownloadPDF" class="btn btn-default" data-toggle="modal" data-target="#reviewModal">Download PDF</button>
+        <button id="btnSubmit" class="btn btn-success" data-toggle="modal" data-target="#reviewModal">{@message type="content" key="submit"/}</button>
+
+        <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Are you sure you want to submit?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Once submitted you cannot make changes to your proposal.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{@message type="content" key="cancel"/}</button>
+                        <button type="button" id="btnSubmit2" class="btn btn-success" data-dismiss="modal">{@message type="content" key="submit"/}</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+
+{+scripts /}
+{/body}
+
+{<scripts}
+<script type="text/javascript">
+$("#btnSubmit2").click(function() {
+});
+</script>
+{/scripts}

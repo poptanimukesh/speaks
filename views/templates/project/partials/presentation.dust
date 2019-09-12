@@ -1,0 +1,165 @@
+<div class="modal fade" id="editor-modal" tabindex="-1" role="dialog" aria-labelledby="editor-title">
+  <style scoped>
+    /* provides a red astrix to denote required fields - this should be included in common stylesheet */
+
+    .form-group.required .control-label:after {
+      content: "*";
+      color: red;
+      margin-left: 4px;
+    }
+  </style>
+  <div class="modal-dialog" role="document">
+    <form class="modal-content form-horizontal" id="editor">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title" id="editorTitle">Edit Row</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group required">
+          <label for="#presentation-date" class="col-sm-3 control-label">Date</label>
+          <div class="col-sm-9">
+            <input type="date" class="form-control" id="presentation-date" name="presentation-date" placeholder="" required>
+          </div>
+        </div>
+        <input type="text" id="presentation-id" name="presentation-id" class="hidden" />
+        <div class="form-group required">
+          <label for="#presentation-meeting" class="col-sm-3 control-label">Meeting</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="presentation-meeting" name="presentation-meeting" placeholder="" required>
+          </div>
+        </div>
+        <div class="form-group required">
+          <label for="#presentation-title" class="col-sm-3 control-label">Title</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="presentation-title" name="presentation-title" placeholder="" required>
+          </div>
+        </div>
+        <div class="form-group required">
+          <label for="#presentation-location" class="col-sm-3 control-label">Location</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="presentation-location" name="presentation-location" placeholder="" required>
+          </div>
+        </div>
+        <div class="form-group required">
+          <label for="#presentation-authors" class="col-sm-3 control-label">Authors</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="presentation-authors" name="presentation-authors" placeholder="" required>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script type="text/javascript">
+var modal,
+  editor,
+  ftable;
+var proxyId;
+
+$(document).ready(function() {
+  proxyId = $("#proxyId").text();
+  var presentationsGetUrl = '/api/v1/project/' + proxyId + '/presentations';
+  var columnsGetUrl = '/api/v1/project/' + proxyId + '/presentations/columns';
+
+  modal = $("#editor-modal");
+  editor = $("#editor");
+  editorTitle = $("#editorTitle");
+
+  $.when(
+    $.get(columnsGetUrl),
+    $.get(presentationsGetUrl)
+  ).done(function(columns, rows) {
+    ftable = FooTable.init('#presentationsTable', {
+      columns: columns[0].data,
+      rows: rows[0].data,
+      editing: {
+        enabled: true,
+        editRow: editRowHandler,
+        addRow: addRowHandler,
+        deleteRow: deleteRowHandler,
+        allowEdit: false
+      }
+    });
+    editor.on('submit', onSubmitHandler);
+  }).fail(function(err) {
+    alert('Error');
+  });
+});
+
+function editRowHandler(row) {
+  console.log('Edit Row Handler');
+  $("#editorTitle").text("Edit Row");
+  modal.data('row', row);
+  var values = row.val();
+  $("#presentation-id").val(values.PresentationID);
+  $("#presentation-date").val(values.Date.format("YYYY-MM-DD"));
+  $("#presentation-meeting").val(values.Meeting);
+  $("#presentation-title").val(values.Title);
+  $("#presentation-location").val(values.Location);
+  $("#presentation-authors").val(values.Authors);
+  modal.modal('show');
+}
+
+function addRowHandler() {
+  console.log('Add Row Handler');
+  $("#editorTitle").text("Add Row");
+  modal.removeData('row');
+  editor[0].reset();
+  modal.modal('show');
+}
+
+function deleteRowHandler(row) {
+  var deleteUrlPrefix = '/api/v1/project/' + proxyId + '/presentation/';
+  var values = row.val();
+  $.ajax({
+    method: 'DELETE',
+    url: deleteUrlPrefix + values.PresentationID,
+  }).done(function(results) {
+    location.reload();
+  }).fail(function(err) {
+    alert(err);
+  });
+  console.log(values);
+}
+
+function onSubmitHandler(e) {
+	if (this.checkValidity && !this.checkValidity()) return;
+  e.preventDefault();
+  var row = modal.data('row');
+
+  var urlPrefix = '/api/v1/project/' + proxyId + '/presentation';
+  var url, method;
+
+  if (row instanceof FooTable.Row) {
+    url = urlPrefix + '/' + row.PresentationID;
+    method = 'PUT';
+  } else {
+    url = urlPrefix;
+    method = 'POST';
+  }
+
+  var data = {
+    presentationId: $("#presentation-id").val(),
+    date: $("#presentation-date").val(),
+    meeting: $("#presentation-meeting").val(),
+    title: $("#presentation-title").val(),
+    location: $("#presentation-location").val(),
+    authors: $("#presentation-authors").val()
+  };
+
+  $.ajax({
+    method: method,
+    url: url,
+    data: data
+  }).done(function(results) {
+    location.reload();
+  }).fail(function(err) {
+    console.log(err);
+  });
+}
+</script>

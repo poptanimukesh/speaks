@@ -1,0 +1,27 @@
+$usc-cardinal: #990000;
+$usc-gold: #FFCC00;
+$usc-white: #FFFFFF;
+$usc-black: #000000;
+$usc-light-gray: #CCCCCC;
+$usc-dark-gray: #777777;
+
+.usc-goldoncard {
+    background-color: $usc-cardinal;
+    color: $usc-gold;
+}
+
+.usc-cardongold {
+    background-color: $usc-gold;
+    color: $usc-cardinal;
+}
+
+
+.usc-cardonwhite {
+    background-color: $usc-white;
+    color: $usc-cardinal;
+}
+
+.usc-whiteonblack {
+    background-color: $usc-black;
+    color: $usc-white
+}

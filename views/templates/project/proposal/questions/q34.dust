@@ -1,0 +1,20 @@
+<div id="q34-wrapper" class="wrapper">
+    <label id="q34-label">
+      <span class="question">
+        Does your study require IRB approval? (You must discuss this with your mentor prior to submitting your proposal.)
+      </span>
+      <span class="error"></span>
+    </label>
+    <div class="radio">
+        <label>
+            <input type="radio" name="radio-q34" id="radio-q34" value="0" {@eq key=details.q34 value="0"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            Yes
+        </label><br/>
+        <label>
+            <input type="radio" name="radio-q34" id="radio-q34" value="1" {@eq key=details.q34 value="1"} checked {/eq}
+            {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+            No
+        </label><br/>
+    </div>
+</div>

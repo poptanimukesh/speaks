@@ -1,0 +1,10 @@
+<div id="q36-wrapper" class="wrapper">
+    <label id="q36-label">
+      <span class="question">
+        Please indicate your planned date for submission to IRB.
+      </span>
+      <span class="error"></span>
+    </label>
+    <input id="q36" type="date" class="form-control" value="{details.q36}"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}/>
+</div>

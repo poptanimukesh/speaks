@@ -1,0 +1,54 @@
+<div class="panel panel-default">
+    <div class="panel-heading"><h5 class="margin0">Projects</h5></div>
+    <table id="projectsTable" class="table" data-sorting="true">
+    </table>
+</div>
+
+<script type="text/javascript">
+var formatter = {
+  wrapAsLinkButton: function(title) {
+    return function(value) {
+      if (value == undefined || value == null || value == false || value == "false" || value == "") {
+        return '';
+      }
+      return '<a target="_blank" class="btn btn-default" href="' + value + '">' + title + '</a>';
+    }
+  },
+  wrapAsLink: function(value) {
+    return '<a target="_blank" href="' + value + '">' + location.host + value + '</a>';
+  },
+  links: function(data) {
+    return formatter.wrapAsLinkButton('Abstract')(data.abstract)
+      + formatter.wrapAsLinkButton('Poster')(data.poster);
+  },
+};
+
+$(document).ready(function() {
+  proxyId = $("#proxyId").text();
+  var projectsGetUrl = '/api/v1/admin/projects/published';
+
+  $.get(projectsGetUrl).done(function(rows) {
+    var columns = [
+      { name: "projectId", title: "Project ID" },
+      { name: "title", title: "Title", vislble: true, style: {maxWidth: 320} },
+      { name: "projectCategory", title: "Category", visible: true },
+      { name: "links", title: "Links", visible: true, type: "object", formatter: formatter.links },
+      { name: "teamMembers", title: "Team Members", visible: true, breakpoints: "xs sm md lg" },
+      { name: "mentor", title: "Mentor", visible: true, breakpoints: "xs sm md lg" },
+      { name: "description", title: "Description", visible: true, breakpoints: "xs sm md lg" },
+    ];
+    ftable = FooTable.init('#projectsTable', {
+      columns: columns,
+      rows: rows.data,
+      sorting: {
+        enabled: true
+      },
+      filtering: {
+        enabled: true
+      },
+    });
+  }).fail(function(err) {
+    alert('Error');
+  });
+});
+</script>

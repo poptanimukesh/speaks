@@ -1,0 +1,12 @@
+{>"layouts/master"/}
+
+{<body}
+<h1>{message}</h1>
+{?noterror}
+{:else}
+<p>Contact <a href="mailto:poptani@usc.edu">poptani@usc.edu</a> for assistance with subject as <strong>PSP Error</strong>.</br>
+Attach a screenshot to the email for reference.</p>
+<h2>{error.status}</h2>
+<pre>{error.stack}</pre>
+{/noterror}
+{/body}

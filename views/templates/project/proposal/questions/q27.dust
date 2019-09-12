@@ -1,0 +1,11 @@
+<div id="q27-wrapper" class="wrapper">
+    <label id="q27-label">
+      <span class="question">
+        Please list your specific research objectives.
+      </span>
+      <span class="error"></span>
+    </label>
+    <textarea id="q27" class="form-control" rows="7"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+    {details.q27}</textarea>
+</div>

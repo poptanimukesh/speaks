@@ -1,0 +1,195 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,top=1in,bottom=0.53in,left=0.53in,right=0.53in]{geometry}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{authblk}
+\usepackage{fancyhdr}
+\usepackage{hhline}
+%\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{sansmath}
+\usepackage{listingsutf8}
+\lstset{inputencoding=utf8x,extendedchars=\true,basicstyle=\normalfont,columns=fullflexible,breaklines=true,breakindent=0em}
+
+\setlength\parindent{0pt}
+
+\fancypagestyle{fancyfirst}
+{
+	\renewcommand{\headrulewidth}{0pt}
+	\fancyhf{}
+	\chead{}
+	\lhead{}
+	\rhead{Project ID: |projectId|
+	}
+	\lfoot{}
+	\rfoot{}
+}
+
+\title{\vspace{3in}|title|
+\\{\small Project Proposal}}
+|authors|
+\affil[]{}
+\date{}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancyfirst}
+\pagebreak
+
+{\bfseries What is your research question?}
+\begin{lstlisting}[mathescape]
+|q9|
+\end{lstlisting}
+\hfill
+
+{\bfseries Please list your specific research objectives.}
+\begin{lstlisting}[mathescape]
+|q27|
+\end{lstlisting}
+\hfill
+
+{\bfseries State the significance/background of the problem that your project addresses. Please cite a minimum of 3 references in AMA citation style used to support your background. (Approximately 300 words)}
+\begin{lstlisting}[mathescape]
+|q8|
+\end{lstlisting}
+\hfill
+
+{\bfseries Please indicate the study design that most closely describes the design of your study.}
+\begin{lstlisting}[mathescape]
+|q28text|
+\end{lstlisting}
+\hfill
+
+{\bfseries Please indicate the area of practice to which your scholarly work most closely relates.}
+\begin{lstlisting}[mathescape]
+|projectCategory|
+\end{lstlisting}
+\hfill
+
+{\bfseries Please describe your target population and sample size for your study. Consider and respond to the following: Who are your patients? What are the inclusion/exclusion criteria? How many patients do you aim to include?}
+\begin{lstlisting}[mathescape]
+|q31|
+\end{lstlisting}
+\hfill
+
+{\bfseries Please describe your data collection plan.}
+\begin{lstlisting}[mathescape]
+|q32|
+\end{lstlisting}
+\hfill
+
+{\bfseries Please describe your plan for statistical analysis of your data.}
+\begin{lstlisting}[mathescape]
+|q33|
+\end{lstlisting}
+\hfill
+
+{\bfseries Does your study require IRB approval? (You must discuss this with your mentor prior to submitting your proposal.)}
+\begin{lstlisting}[mathescape]
+|q34text|
+\end{lstlisting}
+\hfill
+
+{\bfseries Please explain your rationale for why your study does or does not require IRB approval.}
+\begin{lstlisting}[mathescape]
+|q37|
+\end{lstlisting}
+\hfill
+
+{\bfseries If you believe your study does require IRB approval , what category of approval will you be seeking?}
+\begin{lstlisting}[mathescape]
+|q35text|
+\end{lstlisting}
+\hfill
+
+{\bfseries Please indicate your planned date for submission to IRB}
+\begin{lstlisting}[mathescape]
+|q36|
+\end{lstlisting}
+\hfill
+
+{\bfseries Please describe the specific roles and responsibilities of each student group member for this scholarly project. (It is not reasonable or acceptable to indicate that every member of your group will do every part of the project equally.)}
+\begin{lstlisting}[mathescape]
+|q7|
+\end{lstlisting}
+\hfill
+
+{\bfseries Briefly describe the general timeline for when you will complete the following items by entering the Month and Year.}
+\begin{lstlisting}[mathescape]
+Prepare data collection table
+|q12p1|
+
+Submit to IRB (if applicable)
+|q12p2|
+
+Start data collection
+|q12p3|
+
+Finish data collection
+|q12p4|
+
+Start data analysis
+|q12p5|
+
+Finish data analysis
+|q12p6|
+
+Start poster draft
+|q12p7|
+
+Finish poster draft
+|q12p8|
+\end{lstlisting}
+\hfill
+
+{\bfseries Why did you select the Project Advisor(s) for this project?}
+\begin{lstlisting}[mathescape]
+|q17|
+\end{lstlisting}
+\hfill
+
+{\bfseries Which of the following best describes how you came to work with your Project Advisor(s)?}
+\begin{lstlisting}[mathescape]
+|q18text|
+\end{lstlisting}
+\hfill
+
+\pagebreak
+\begin{center}
+	{\bfseries\large Project Advisor Section}
+\end{center}
+
+{\bfseries Thank you for agreeing to mentor one or more of our USC students on their PharmD Scholarly Project.}\\
+
+{\bfseries Which of the following best describes your highest academic degree?}
+\begin{lstlisting}[mathescape]
+|q25text|
+\end{lstlisting}
+\hfill
+
+{\bfseries Which of the following describes your area of practice/work? Please check ALL that apply.}
+\begin{lstlisting}[mathescape]
+|q23text|
+\end{lstlisting}
+\hfill
+
+{\bfseries Have you ever submitted research to the institutional review board (IRB)?}
+\begin{lstlisting}[mathescape]
+|q19text|
+\end{lstlisting}
+\hfill
+
+{\bfseries What is your affiliation with the institution where the research is being conducted?}
+\begin{lstlisting}[mathescape]
+|q21|
+\end{lstlisting}
+\hfill
+
+{\bfseries Please briefly describe your previous scholarly work including research, quality improvement initiatives, publications, etc.}
+\begin{lstlisting}[mathescape]
+|q20|
+\end{lstlisting}
+\hfill
+
+\end{document}

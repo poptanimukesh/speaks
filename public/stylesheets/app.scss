@@ -1,0 +1,24 @@
+@import "reset";
+
+// @import "bootstrap4";
+@import "bootstrap";
+@import "font-awesome/font-awesome";
+
+@import "usc";
+@import "pharmd";
+
+.debug-red {
+    background-color: red;
+}
+
+table.footable > tbody > tr.footable-empty > td {
+  font-size: 16px !important;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+p.comment {
+  white-space: pre-wrap;
+}

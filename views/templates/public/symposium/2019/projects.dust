@@ -1,0 +1,90 @@
+<div class="panel panel-default">
+    
+    <div class="panel-heading"><h5 class="margin0">Projects</h5></div>
+    <div class="loader" id="loader" style="display: none;"></div>
+    <table id="projectsTable" class="table" data-sorting="true">
+    </table>
+</div>
+
+<style>
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  margin: 10% auto;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+
+<script type="text/javascript">
+var formatter = {
+  wrapAsLinkButton: function(title) {
+    return function(value) {
+      if (value == undefined || value == null || value == false || value == "false" || value == "") {
+        return '';
+      }
+      return '<a target="_blank" class="btn btn-default" href="' + value + '">' + title + '</a>';
+    }
+  },
+  wrapAsLink: function(value) {
+    return '<a target="_blank" href="' + value + '">' + location.host + value + '</a>';
+  },
+  links: function(data) {
+    return formatter.wrapAsLinkButton('Abstract')(data.abstract)
+      + formatter.wrapAsLinkButton('Poster')(data.poster);
+  },
+};
+
+$(document).ready(function() {
+  proxyId = $("#proxyId").text();
+  var projectsGetUrl = '/api/v1/admin/projects/published';
+
+  $("#loader").css("display","block");
+  $.get(projectsGetUrl).done(function(rows) {
+    $("#loader").css("display","none");
+    projectList = [];
+    for(var i=0; i < rows.data.length; i++) {
+      if(rows.data[i].projectId >= 178)
+        projectList.push(rows.data[i]);
+        if(rows.data[i].symposium_title != undefined)
+            rows.data[i].title = rows.data[i].symposium_title
+    }
+
+    var columns = [
+      { name: "projectId", title: "Project ID" },
+      { name: "title", title: "Title", vislble: true, style: {maxWidth: 320} },
+      { name: "projectCategory", title: "Category", visible: true },
+      { name: "links", title: "Links", visible: true, type: "object", formatter: formatter.links },
+      { name: "teamMembers", title: "Team Members", visible: true, breakpoints: "xs sm md lg" },
+      { name: "mentor", title: "Mentor", visible: true, breakpoints: "xs sm md lg" },
+      { name: "description", title: "Description", visible: true, breakpoints: "xs sm md lg" },
+    ];
+    ftable = FooTable.init('#projectsTable', {
+      columns: columns,
+      rows: projectList,
+      sorting: {
+        enabled: true
+      },
+      filtering: {
+        enabled: true
+      },
+    });
+  }).fail(function(err) {
+    alert('Error');
+  });
+});
+</script>

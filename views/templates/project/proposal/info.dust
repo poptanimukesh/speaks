@@ -1,0 +1,48 @@
+{> "layouts/master" /}
+
+{<body}
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-6">
+        <br/>
+        <h5><strong>{@pre type="content" key="project_title"/}</strong></h5>
+        <div>{details.title}</div>
+
+        <br/>
+        <h5><strong>{@pre type="content" key="team_members"/}</strong></h5>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th><h5>First Name</h5></th>
+                    <th><h5>Last Name</h5></th>
+                    <th><h5>Email</h5></th>
+                </tr>
+            </thead>
+            <tbody>
+                {#team.members}
+                <tr>
+                    <td>{first_name}</td>
+                    <td>{last_name}</td>
+                    <td>{email}</td>
+                </tr>
+                {/team.members}
+            </tbody>
+        </table>
+
+        <br/>
+        <h5 style="display: inline"><strong style="display: inline">{@pre type="content" key="team_size"/}</strong></h5><span>: {team.size}</span>
+
+        <br/>
+        <h5><strong>{@pre type="content" key="project_mentor"/}</strong></h5>
+        <div>{mentors.members[0].first_name} {mentors.members[0].last_name}</div>
+        <div>{mentors.members[0].email}</div>
+
+        <br/>
+        <h5><strong>{@pre type="content" key="description"/}</strong></h5>
+        <div>{details.description}</div>
+
+        <br/>
+        <br/>
+        <a href="{urls.proposalUrl}" class="btn btn-default">{@pre type="content" key="back"/}</a>
+    </div>
+</div>
+{/body}

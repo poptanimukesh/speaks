@@ -1,0 +1,89 @@
+<div id="q12-wrapper" class="wrapper">
+    <label id="q12-label">
+      <span class="question">
+        Briefly describe the general timeline for when you will complete the following items by entering the Month and Year.
+      </span>
+      <span class="error"></span>
+    </label>
+    <br/>
+
+    <label id="q12p1-label">
+      <span class="question">
+        Prepare data collection table
+      </span>
+      <span class="error"></span>
+    </label>
+    <input id="q12p1" type="text" class="form-control" value="{details.q12p1}"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}/>
+    <br/>
+
+    <label id="q12p2-label">
+      <span class="question">
+        Submit to IRB (if applicable)
+      </span>
+      <span class="error"></span>
+    </label>
+    <input id="q12p2" type="text" class="form-control" value="{details.q12p2}"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}/>
+    <br/>
+
+    <label id="q12p3-label">
+      <span class="question">
+        Start data collection
+      </span>
+      <span class="error"></span>
+    </label>
+    <input id="q12p3" type="text" class="form-control" value="{details.q12p3}"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}/>
+    <br/>
+
+    <label id="q12p4-label">
+      <span class="question">
+        Finish data collection
+      </span>
+      <span class="error"></span>
+    </label>
+    <input id="q12p4" type="text" class="form-control" value="{details.q12p4}"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}/>
+    <br/>
+
+    <label id="q12p5-label">
+      <span class="question">
+        Start data analysis
+      </span>
+      <span class="error"></span>
+    </label>
+    <input id="q12p5" type="text" class="form-control" value="{details.q12p5}"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}/>
+    <br/>
+
+    <label id="q12p6-label">
+      <span class="question">
+        Finish data analysis
+      </span>
+      <span class="error"></span>
+    </label>
+    <input id="q12p6" type="text" class="form-control" value="{details.q12p6}"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}/>
+    <br/>
+
+    <label id="q12p7-label">
+      <span class="question">
+        Start poster draft
+      </span>
+      <span class="error"></span>
+    </label>
+    <input id="q12p7" type="text" class="form-control" value="{details.q12p7}"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}/>
+    <br/>
+
+    <label id="q12p8-label">
+      <span class="question">
+        Finish poster draft
+      </span>
+      <span class="error"></span>
+    </label>
+    <input id="q12p8" type="text" class="form-control" value="{details.q12p8}"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}/>
+    <br/>
+</div>

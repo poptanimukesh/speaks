@@ -1,0 +1,59 @@
+<script type="text/javascript">
+var rule = {
+  required: {
+    required: true
+  }
+};
+
+var check = function(elem, wrapper, rule) {
+  var result = approve.value(elem.val(), rule);
+  if (result.approved) {
+    wrapper.find('span.error').text('');
+    wrapper.find('span').removeClass('text-danger');
+    wrapper.removeClass('has-error');
+    console.log('valid');
+  } else {
+    wrapper.find('span.error').text(' ' + result.errors[0]);
+    wrapper.find('span').addClass('text-danger');
+    wrapper.addClass('has-error');
+    console.log('invalid');
+    isValid = false;
+  }
+  return result.approved;
+};
+
+$(document).ready(function(e) {
+  $("#btn-submit").click(function(e) {
+    var data = getValues();
+    console.log(data);
+
+    for (var i in qIDs) {
+      var qID = qIDs[i];
+      console.log(qID);
+      check($(id(qID)), $(id(qID + "-wrapper")), rule.required);
+    }
+
+    for (var i in Object.keys(pqIDsMap)) {
+      var qID = Object.keys(pqIDsMap)[i];
+      for (var j in pqIDsMap[qID]) {
+        var pqID = pqIDsMap[qID][j];
+        console.log(pqID);
+        check($(id(pqID)), $(id(pqID + "-label")), rule.required);
+      }
+    }
+
+    for (var i in rqIDs) {
+      var rqID = rqIDs[i];
+      console.log(rqID);
+      check($(id("radio-" + rqID + ":checked")), $(id(rqID + "-wrapper")), rule.required);
+    }
+
+    if (isValid) {
+      console.log('Valid');
+      $("#confirmSubmitModal").modal("toggle");
+    } else {
+      console.log('Invalid');
+    }
+  });
+});
+</script>

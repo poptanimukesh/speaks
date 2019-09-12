@@ -1,0 +1,31 @@
+@import "bootstrap4/scss/functions";
+@import "bootstrap4/scss/variables";
+@import "bootstrap4/scss/mixins";
+@import "bootstrap4/scss/utilities";
+@import "bootstrap4/scss/reboot";
+
+@import "bootstrap4/scss/grid";
+@import "bootstrap4/scss/type";
+@import "bootstrap4/scss/images";
+@import "bootstrap4/scss/button-group";
+@import "bootstrap4/scss/buttons";
+@import "bootstrap4/scss/tables";
+
+@import "bootstrap4/scss/forms";
+@import "bootstrap4/scss/custom-forms";
+@import "bootstrap4/scss/input-group";
+@import "bootstrap4/scss/list-group";
+
+@import "bootstrap4/scss/progress";
+@import "bootstrap4/scss/alert";
+@import "bootstrap4/scss/badge";
+@import "bootstrap4/scss/tooltip";
+@import "bootstrap4/scss/popover";
+
+.span-popover {
+	font-family: monospace;
+	cursor: pointer;
+}
+div.popover {
+	font-family: 'Alegreya', serif;
+}

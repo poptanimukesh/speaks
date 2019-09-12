@@ -1,0 +1,59 @@
+{>"layouts/master"/}
+
+{<body}
+<div class="row">
+  <div class="col-xs-12 col-sm-6 col-md-4">
+    <form method="POST" action="/login">
+      <div class="form-group">
+        <input type="text" class="form-control" id="username" name="username" placeholder="username">
+        <label for="username" style="display: none"></label>
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control" id="password" name="password" placeholder="password">
+        <label for="password" style="display: none"></label>
+      </div>
+      <input type="hidden" id="_csrf" name="_csrf" value="{_csrf}" />
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </div>
+</div>
+
+{+scripts/}
+{/body}
+
+{<scripts}
+<script type="text/javascript">
+var requiredRule = {
+  required: true
+};
+
+$(document).ready(function() {
+  $('button[type=submit]').click(onSubmit);
+});
+
+var check = function(elem, wrapper, rule) {
+  var result = approve.value(elem.val(), rule);
+  if (result.approved) {
+    wrapper.children('label').hide().text('');
+    wrapper.removeClass('has-error');
+  } else {
+    wrapper.children('label').show().text(result.errors[0]);
+    wrapper.addClass('has-error');
+  }
+
+  return result.approved;
+};
+
+var validate = function() {
+  var usernameResult = check($("#username"), $("#username").parent(), requiredRule);
+  var passwordResult = check($("#password"), $("#password").parent(), requiredRule);
+
+  return usernameResult && passwordResult;
+};
+
+var onSubmit = function(e) {
+  var result = validate();
+  return result;
+};
+</script>
+{/scripts}

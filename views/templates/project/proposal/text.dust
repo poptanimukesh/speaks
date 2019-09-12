@@ -1,0 +1,95 @@
+{> "layouts/master" /}
+
+{<body}
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-8">
+      {@eq key=role value="student"}
+      <div class="panel panel-primary">
+      {/eq}
+      {@eq key=role value="mentor"}
+      <div class="panel panel-default">
+      {/eq}
+      {@eq key=role value="admin"}
+      <div class="panel panel-warning">
+      {/eq}
+        <div class="panel-heading">
+          <strong>Proposal Details Section (to be filled by Team)</strong>
+        </div>
+        <div class="panel-body">
+          <br/>{> "templates/project/proposal/questions/q9" /}
+          <br/>{> "templates/project/proposal/questions/q27" /}
+          <br/>{> "templates/project/proposal/questions/q8" /}
+          <br/>{> "templates/project/proposal/questions/q28" /}
+          <br/>{> "templates/project/proposal/questions/q31" /}
+          <br/>{> "templates/project/proposal/questions/q32" /}
+          <br/>{> "templates/project/proposal/questions/q33" /}
+          <br/>{> "templates/project/proposal/questions/q34" /}
+          <br/>{> "templates/project/proposal/questions/q37" /}
+          <br/>{> "templates/project/proposal/questions/q35" /}
+          <br/>{> "templates/project/proposal/questions/q36" /}
+          <br/>{> "templates/project/proposal/questions/q7" /}
+          <br/>{> "templates/project/proposal/questions/q12" /}
+        </div>
+      </div>
+      {@eq key=role value="student"}
+      <div class="panel panel-primary">
+      {/eq}
+      {@eq key=role value="mentor"}
+      <div class="panel panel-default">
+      {/eq}
+      {@eq key=role value="admin"}
+      <div class="panel panel-warning">
+      {/eq}
+        <div class="panel-heading">
+          <strong>Project Advisor Section (to be filled by Team)</strong>
+        </div>
+        <div class="panel-body">
+          <br/>{> "templates/project/proposal/questions/q17" /}
+          <br/>{> "templates/project/proposal/questions/q18" /}
+        </div>
+      </div>
+      {@eq key=role value="student"}
+      <div class="panel panel-default">
+      {/eq}
+      {@eq key=role value="mentor"}
+      <div class="panel panel-primary">
+      {/eq}
+      {@eq key=role value="admin"}
+      <div class="panel panel-warning">
+      {/eq}
+        <div class="panel-heading">
+          <strong>Project Advisor Section (to be filled by Project Advisor)</strong>
+        </div>
+        <div class="panel-body">
+          <br/>{> "templates/project/proposal/questions/msg" msg="Thank you for agreeing to mentor one or more of our USC students on their PharmD Scholarly Project."/}
+          <br/>{> "templates/project/proposal/questions/q25" forRole="mentor" /}
+          <br/>{> "templates/project/proposal/questions/q23" forRole="mentor" /}
+          <br/>{> "templates/project/proposal/questions/q19" forRole="mentor" /}
+          <br/>{> "templates/project/proposal/questions/q21" forRole="mentor" /}
+          <br/>{> "templates/project/proposal/questions/q20" forRole="mentor" /}
+          <br/>{> "templates/project/proposal/questions/q16" forRole="mentor" /}
+        </div>
+      </div>
+      <div class="wrapper">
+        {@ne key=details.proposal_locked value="true"}
+          <a id="btn-save" class="btn btn-success" type="submit" href="javascript:void(0)">Save</a>
+        {/ne}
+          <a id="btn-cancel" class="btn btn-default" type="button" href="{urls.home}">Back</a>
+          <br/>
+          <br/>
+          <a id="btn-cancel" class="btn btn-default" type="button" href="{urls.viewProposal}">Download PDF</a>
+        {@ne key=details.proposal_locked value="true"}
+          <button id="btn-submit" class="btn btn-danger" type="button">Submit</button>
+        {/ne}
+          <input type="hidden" id="_csrf" value="{_csrf}" />
+      </div>
+    </div>
+</div>
+
+<div class="hidden" id="proxyId">{proxyId}</div>
+{> "templates/project/proposal/commonScript" /}
+{> "templates/project/proposal/confirmSubmit" /}
+{> "templates/project/proposal/roleDisable" /}
+{> "templates/project/proposal/saveText" /}
+{> "templates/project/proposal/checkQuestions" /}
+{/body}

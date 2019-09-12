@@ -1,0 +1,331 @@
+{> "layouts/master" /}
+
+<style type="text/css">
+     .border1{
+        border: 1px solid #ccc;  
+     }
+     ul{
+        margin-left: 30px;
+     }
+     .alignCenter{
+        margin-left: 20%;
+        margin-top: 8%;
+     }
+</style>
+
+{<body}
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-12">
+        <div class="panel-heading">
+          <strong>Proposal Review Section for Project : {project.projectId} - {details.title}</strong>
+        </div>
+        <div class="panel-body">
+          <br/>
+          <div class='row' style='border: 1px solid #ccc;padding: 20px;background-color: #f8f8f8;'>
+            <div class='row border1'>
+              <div class='col-md-8'>
+                <b>Review Summary</b> </br>
+                Meets none of the criteria:=0, Meets some of the criteria=1, Meets most of the criteria=2, Meets all of the criteria=3
+              </div>
+              <div class='col-md-2'>
+                Reviewer 1:<br/>
+                {@ne key=role value="student"}
+                    <span id='r1'>{details.r1}</span>
+                {/ne}
+              </div>
+              <div class='col-md-2'>
+                Reviewer 2:<br/>
+                {@ne key=role value="student"}
+                    <span id='r2'>{details.r2}</span>
+                {/ne}
+              </div>
+            </div>
+
+            <div class='row border1'>
+                 <div class='col-md-8'>
+                     <b>Research Question</b>- The stated research question is:
+                       <ul>
+                          <li>Focused,</li>
+                          <li>Important, and</li>
+                          <li>Feasible to study</li>
+                       </ul>
+                 </div>
+                 <div class='col-md-2'>
+                     <div class="alignCenter" id="r1q91">{details.r1q91}</div>
+                 </div>
+                 <div class='col-md-2'>
+                     <div class="alignCenter" id="r2q91">{details.r2q91}</div>
+                 </div>
+             </div>
+
+            <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Research Objectives</b>- The stated research objectives are
+                     <ul>
+                        <li>Specific</li>
+                        <li>Measurable</li>
+                        <li>Achievable</li>
+                        <li>Relevant</li>
+                        <li>Time-bound</li>
+                     </ul>
+               </div>
+               <div class='col-md-2'>
+                     <div class="alignCenter" id="r1q92">{details.r1q92}</div>
+               </div>
+               <div class='col-md-2'>
+                     <div class="alignCenter" id="r2q92">{details.r2q92}</div>
+               </div>
+           </div>
+
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Significance/ Background</b>- The significance and background:
+                     <ul>
+                        <li>Establishes the importance of research</li>
+                        <li>Describes a need for the research:</li>
+                           <ul>
+                              <li>Generates new knowledge,</li>
+                              <li>Answers whether a previous observation can be replicated,</li>
+                              <li>Documents if previous findings can be applied to a different population, or</li>
+                              <li>Determines if improved measurement techniques can clarify a relationship</li>
+                           </ul>
+                        <li>Provides relevance of research to clinical pharmacy</li>
+                        <li>Includes 3 relevant citations in appropriate format</li>
+                     </ul>
+               </div>
+               <div class='col-md-2'>
+                     <div class="alignCenter" id="r1q93">{details.r1q93}</div>
+               </div>
+               <div class='col-md-2'>
+                     <div class="alignCenter" id="r2q93">{details.r2q93}</div>
+               </div>
+           </div>
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Study Design</b>- The selected study design:
+                     <ul>
+                        <li>Matches the description of what is stated elsewhere in the proposal</li>
+                        <li>Target patient population clearly defined and reasonable</li>
+                     </ul>
+               </div>
+               <div class='col-md-2'>
+                     <div class="alignCenter" id="r1q94">{details.r1q94}</div>
+               </div>
+               <div class='col-md-2'>
+                     <div class="alignCenter" id="r2q94">{details.r2q94}</div>
+               </div>
+           </div>
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Data Collection and Analysis plan</b>- The data collection and analysis plans are:
+                     <ul>
+                        <li>Deliberate and systematic</li>
+                        <li>Reasonable for time frame</li>
+                        <li>Identify statistical software or support to be utilized</li>
+                     </ul>
+               </div>
+               <div class='col-md-2'>
+                     <div class="alignCenter" id="r1q95">{details.r1q95}</div>
+               </div>
+               <div class='col-md-2'>
+                     <div class="alignCenter" id="r2q95">{details.r2q95}</div>
+               </div>
+           </div>
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Timeline and responsibilities of each team member are:</b>
+                     <ul>
+                        <li>Clearly defined</li>
+                        <li>Reasonable to meet deadlines</li>
+                     </ul>
+               </div>
+               <div class='col-md-2'>
+                     <div class="alignCenter" id="r1q96">{details.r1q96}</div>
+               </div>
+               <div class='col-md-2'>
+                     <div class="alignCenter" id="r2q96">{details.r2q96}</div>
+               </div>
+           </div>
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Readability and Grammar- The proposal</b>
+                     <ul>
+                        <li>Clearly communicates thoughts and concepts,</li>
+                        <li>Uses concise writing; avoids repetition and wordiness,</li>
+                        <li>Utilizes professional language and style, and</li>
+                        <li>Is free of grammatical or technical errors.</li>
+                     </ul>
+               </div>
+               <div class='col-md-2'>
+                      <div class="alignCenter" id="r1q97">{details.r1q97}</div>
+               </div>
+               <div class='col-md-2'>
+                     <div class="alignCenter" id="r2q97">{details.r2q97}</div>
+               </div>
+           </div>
+
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>IRB questions are completed and accurate</b> (yes or no)
+               </div>
+               <div class='col-md-2'>
+                     <div class="alignCenter" id="r1q98">{details.r1q98}</div>
+               </div>
+               <div class='col-md-2'>
+                     <div class="alignCenter" id="r2q98">{details.r2q98}</div>
+               </div>
+           </div>
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Project advisor section completed</b> (yes or no)
+               </div>
+               <div class='col-md-2'>
+                     <div class="alignCenter" id="r1q99">{details.r1q99}</div>
+               </div>
+               <div class='col-md-2'>
+                     <div class="alignCenter" id="r2q99">{details.r2q99}</div>
+               </div>
+           </div>
+
+          <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Overall Impression</b>- The overall impression evaluates the entire abstract, as a whole. It is not a mathematical representation of the individual scores above. (Poor, Average, Very good, Excellent)
+               </div>
+               <div class='col-md-2'>
+                     <div class="alignCenter" id="r1q100">{details.r1q100}</div>
+               </div>
+               <div class='col-md-2'>
+                     <div class="alignCenter" id="r2q100">{details.r2q100}</div>
+               </div>
+           </div>
+
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Overall comments</b>- Please provide your overall comments for the authors to consider. 
+               </div>
+               <div class='col-md-2'>
+                    <div class="" id="r1q101">{details.r1q101}</div>
+               </div>
+               <div class='col-md-2'>
+                   <div class="" id="r2q101">{details.r2q101}</div>
+               </div>
+           </div>
+
+           <div class='row border1'>
+               <div class='col-md-8'>
+                   <b>Total score</b>
+               </div>
+               <div class='col-md-2'>
+                   <div class="alignCenter" id="r1_score">{details.r1_score}</div>
+               </div>
+               <div class='col-md-2'>
+                   <div class="alignCenter" id="r2_score">{details.r2_score}</div>
+               </div>
+           </div>
+
+           {@ne key=role value="student"}
+               <div class='row border1'>
+                   <div class='col-md-8'>
+                       <b>Publish status</b>
+                   </div>
+                   <div class='col-md-2'>
+                       {@eq key=details.r1_published value="true"}
+                          Published
+                       {/eq}
+                   </div>
+                   <div class='col-md-2'>
+                       {@eq key=details.r2_published value="true"}
+                          Published
+                      {/eq}
+                   </div>
+               </div>
+
+               <div class='row border1'>
+                   <div class='col-md-8'>
+                       <b> </b>
+                   </div>
+                   <div class='col-md-2'>
+                        {@eq key=details.r1_published value="true"}
+                          <button id="btn1-unpublish" class="btn btn-success" type="button">Unpublish</button>
+                        {/eq}
+                   </div>
+                   <div class='col-md-2'>
+                       {@eq key=details.r2_published value="true"}
+                          <button id="btn2-unpublish" class="btn btn-success" type="button">Unpublish</button>
+                       {/eq}
+                   </div>
+               </div>
+           {/ne}
+
+          </div>
+      </div>
+
+      <div id="r1-old-scores">
+        <div class="panel-heading">
+            <strong>Reviewer1 Old Scores</strong>
+        </div>
+        <div class="panel-body" style="padding:2px;">
+            <br/>
+            <div class='row' style='border: 1px solid #ccc;padding: 20px;background-color: #f8f8f8;'>
+              <div class='row border1'>
+                <div class='col-md-4'>
+                      <span><strong>Details</strong></span>
+                </div>
+                <div class='col-md-4'>
+                  <strong>Reviewer 1</strong><br/>
+                  {@ne key=role value="student"}
+                      <span>{details.r1}</span>
+                  {/ne}
+                </div>
+              </div>
+
+              <div id="r1-dynamic-data">
+
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <div id="r2-old-scores">
+        <div class="panel-heading">
+            <strong>Reviewer2 Old Scores</strong>
+        </div>
+        <div class="panel-body" style="padding:2px;">
+            <br/>
+            <div class='row' style='border: 1px solid #ccc;padding: 20px;background-color: #f8f8f8;'>
+              <div class='row border1'>
+                <div class='col-md-4'>
+                      <span><strong>Details</strong></span>
+                </div>
+                <div class='col-md-4'>
+                  <strong>Reviewer 2</strong><br/>
+                  {@ne key=role value="student"}
+                      <span>{details.r2}</span>
+                  {/ne}
+                </div>
+              </div>
+
+              <div id="r2-dynamic-data">
+
+              </div>
+            </div>
+        </div>
+      </div>
+      
+      <div class="">
+
+          <input type="hidden" id="_csrf" value="{_csrf}" />
+      </div>
+    </div>
+</div>
+
+<div class="hidden" id="proxyId">{proxyId}</div>
+<div class="hidden" id="userId">{userId}</div>
+<div class="hidden" id="reviewer">{reviewer}</div>
+<div class="hidden" id="reviewer1_oldScore">{details.reviewer1_oldScore}</div>
+<div class="hidden" id="reviewer2_oldScore">{details.reviewer2_oldScore}</div>
+{> "templates/project/proposal/commonScript" /}
+{> "templates/project/proposal/confirmSubmit" /}
+{> "templates/project/proposal/saveText" /}
+{> "templates/project/proposal/checkQuestions" /}
+{/body}

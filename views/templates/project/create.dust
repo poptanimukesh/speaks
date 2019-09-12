@@ -1,0 +1,420 @@
+{> "layouts/master" /}
+
+{<body}
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-8">
+        <br/>
+        <h4>Create Team</h4>
+
+        <br/>
+        <div>
+          <h5 class="inline-block"><strong>Project Title</strong></h5> <label class="inline-block control-label"></label>
+          <input type="text" id="projectTitle" data-id="projectTitle" class="form-control">
+        </div>
+
+        <br/>
+        <div id="teamMembersWrapper">
+          <h5 class="inline-block"><strong>Team Members</strong></h5> <label class="inline-block control-label"></label>
+        </div>
+        <div id="teamRows" data-id="teamRows">
+        </div>
+        <div id="teamRowsLimitWarning" class="hidden panel panel-warning">
+            <div class="panel-heading">
+                <strong>Maximum team size reached. Up to FOUR members allowed.</strong>
+            </div>
+        </div>
+        <button id="addNewTeamMember" class="btn btn-default"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp; Add Team Member</button>
+        <br/>
+        <div id="newTeamMemberRow" class="hidden" data-type="teamRow">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h5 class="pull-left">Team Member #<span data-id="teamRowIndex"></span></h5>
+                    <span class="pull-right"><button class="btn btn-default" data-id="removeRow"><i class="fa fa-remove" aria-hidden="true"></i></button></span>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <h5 class="inline-block">First Name</h5> <label class="inline-block control-label"></label>
+                    <input data-id="firstName" type="text" class="form-control">
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <h5 class="inline-block">Last Name</h5> <label class="inline-block control-label"></label>
+                    <input data-id="lastName" type="text" class="form-control">
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <h5 class="inline-block">Email</h5> <label class="inline-block control-label"></label>
+                    {! <input data-id="email" type="text" class="form-control"> !}
+                    <div class="input-group">
+                        <input data-id="email" type="text" class="form-control" placeholder="username" aria-describedby="basic-addon2">
+                    <span class="input-group-addon" id="basic-addon2">@usc.edu</span>
+                    </div>
+                </div>
+            </div>
+            <br/>
+        </div>
+
+        {>"templates/project/create/mentor"/}
+
+        <br/>
+        <div>
+          <h5 class="inline-block"><strong>Description of the project (three sentences), and other comments.</strong></h5> <label class="inline-block control-label"></label>
+          <textarea id="description" class="form-control" rows="6"></textarea>
+        </div>
+
+        <br/>
+        <br/>
+        <a href="/project/{project.project_id}/proposal" class="btn btn-default">Back</a>
+        <button type="button" id="btnCreate" class="btn btn-success">Create</button>
+
+        <br/>
+        <br/>
+
+        <div id="success" class="hidden panel panel-success">
+            <div class="panel-heading">
+                <strong>Success!</strong>
+            </div>
+            <div class="panel-body">
+                <p>Your unique project link has been created. Please bookmark this link as you need this to access your project page.</p>
+                <p id="proxyStudent"><span id="content"></span></p>
+            </div>
+        </div>
+
+        <span id="teamSize" class="hidden">0</span>
+        <span id="mentorSize" class="hidden">0</span>
+
+        <span id="csrfToken" class="hidden">{_csrf}</span>
+    </div>
+</div>
+
+{+script /}
+{/body}
+
+{<script}
+<script type="text/javascript">
+var teamRowIndex = 0;
+var mentorRowIndex = 0;
+var teamSize = 0;
+var mentorSize = 0;
+var mentors2 = {};
+var fetchedMentor = undefined;
+
+$(document).ready(function() {
+  $("#addNewTeamMember").click(function() {
+    if (teamRowIndex == 3) {
+      $("#addNewTeamMember").attr("disabled", "disabled");
+      $("#teamRowsLimitWarning").removeClass("hidden");
+    }
+
+    var clone = $("#newTeamMemberRow").clone().removeClass("hidden");
+
+    var teamRowId = "teamRow" + teamRowIndex;
+    $(clone).removeAttr("id");
+    $(clone).attr("data-id", teamRowId);
+    $(clone).find("*[data-id=removeRow]").attr("data-target", teamRowId).click(deleteTeamRow);
+    $(clone).find("*[data-id=teamRowIndex]").text(teamRowIndex + 1);
+
+    ++teamRowIndex;
+    $("#teamRows").append($(clone));
+    upTeamSize();
+  });
+
+  $("#btnCreate").click(function() {
+    validate();
+    if (!isValid) {
+      return;
+    }
+    $("#btnCreate").attr("disabled", "disabled");
+
+    var data = {
+      title: "",
+      team: {
+        size: 0,
+        members: []
+      },
+      mentors: {
+        size: 0,
+        members: []
+      },
+      mentors2: mentors2,
+      fetchedMentor: fetchedMentor,
+      description: "",
+      _csrf: ""
+    };
+
+    data.title = $("#projectTitle").val();
+    projectTitle = $("#projectTitle").val();
+    data.description = $("#description").val();
+
+    data.team.size = $("#teamSize").text();
+    data.mentors.size = $("#mentorSize").text();
+
+    data._csrf = $("#csrfToken").text();
+
+    var teamRowElems = $("#teamRows *[data-type=teamRow");
+    teamEmail = "";
+    for (i = 0; i < teamRowElems.length; ++i) {
+      var teamRowElem = teamRowElems[i];
+      var firstNameElem = $(teamRowElem).find("*[data-id=firstName]");
+      var lastNameElem = $(teamRowElem).find("*[data-id=lastName]");
+      var emailElem = $(teamRowElem).find("*[data-id=email]");
+      teamEmail += emailElem.val() + "@usc.edu;";
+
+      data.team.members.push({
+        firstName: firstNameElem.val(),
+        lastName: lastNameElem.val(),
+        email: emailElem.val() + "@usc.edu"
+      });
+    }
+
+    var mentorRowElems = $("#mentorRows *[data-type=mentorRow");
+    mentorsEmail = "";
+    for (i = 0; i < mentorRowElems.length; ++i) {
+      var mentorRowElem = mentorRowElems[i];
+      var firstNameElem = $(mentorRowElem).find("*[data-id=firstName]");
+      var lastNameElem = $(mentorRowElem).find("*[data-id=lastName]");
+      var emailElem = $(mentorRowElem).find("*[data-id=email]");
+      var phoneNumberElem = $(mentorRowElem).find("*[data-id=phoneNumber]");
+      var workplaceElem = $(mentorRowElem).find("*[data-id=workplace]");
+      var jobTitleElem = $(mentorRowElem).find("*[data-id=jobTitle]");
+      mentorsEmail += emailElem.val() + ";";
+
+      data.mentors.members.push({
+        firstName: firstNameElem.val(),
+        lastName: lastNameElem.val(),
+        email: emailElem.val(),
+        phoneNumber: phoneNumberElem.val(),
+        workplace: workplaceElem.val(),
+        jobTitle: jobTitleElem.val()
+      });
+    };
+
+    $.ajax({
+      url: '/api/v1/project',
+      type: 'POST',
+      dataType: 'json',
+      data: data
+    }).done(function(data, status) {
+      $("#proxyStudent #content").text("http://" + location.host + "/project/" + data.data.proxyId.student);
+      $("#proxyStudent #content").wrapInner('<a target="_blank" href="' + $("#proxyStudent #content").text() + '" />').text();
+      $("#success").removeClass('hidden');
+      $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+
+      var studentLink = data.data.proxyId.student;
+      var mentorLink = data.data.proxyId.mentor;
+
+      var templatesGetUrl = "/api/v1/email/templates";
+      $.get(templatesGetUrl).done(function(result) {
+        for(i=0; i<result.data.length; i++) {
+          if("project_creation_student" == result.data[i].EmailType) {
+            var body = result.data[i].EmailBody;
+            var link = "http://" + location.host + "/project/" + studentLink;
+            body = body.replace("$link", link);
+
+            var data = {
+                to: "",
+                email_subject: "",
+                email_body: ""
+            };
+
+            data.to = teamEmail;
+            data.email_subject = result.data[i].EmailSubject.replace("$title", projectTitle);
+            data.email_body = body;
+
+            $.ajax({
+              url: '/api/v1/email/templates/sendemail',
+              type: 'POST',
+              dataType: 'json',
+              data: data
+            }).done(function(result) {
+              if(result.data == true)
+                alert("student :" + result.message);
+            }).fail(function(err) {
+              alert('Error');
+              document.write(err.responseText);
+            });
+
+          } else if("project_creation_advisor" == result.data[i].EmailType) {
+            var body = result.data[i].EmailBody;
+            var link = "http://" + location.host + "/project/" + studentLink;
+            body = body.replace("$link", link);
+
+            var data = {
+                to: "",
+                email_subject: "",
+                email_body: ""
+            };
+
+            data.to = mentorsEmail;
+            data.email_subject = result.data[i].EmailSubject.replace("$title", projectTitle);
+            data.email_body = body;
+
+            $.ajax({
+              url: '/api/v1/email/templates/sendemail',
+              type: 'POST',
+              dataType: 'json',
+              data: data
+            }).done(function(result) {
+              if(result.data == true)
+                alert("mentor :" + result.message);
+            }).fail(function(err) {
+              alert('Error');
+              document.write(err.responseText);
+            });
+          }
+        }
+      }).fail(function(err) {
+        if (err.status == 401) {
+          alert('Unauthorized');
+          location.href = '/admin/login';
+        } else {
+          alert('Error');
+        }
+      });
+
+
+    }).fail(function(err) {
+      alert('Error');
+      document.write(err.responseText);
+    });
+  });
+});
+
+var deleteTeamRow = function() {
+    rowId = $(this).attr("data-target");
+    $("*[data-id=" + rowId + "]").remove();
+    --teamRowIndex;
+    if (teamRowIndex < 4) {
+        $("#addNewTeamMember").removeAttr("disabled");
+        $("#teamRowsLimitWarning").addClass("hidden");
+    }
+    downTeamSize();
+};
+
+var upTeamSize = function() {
+    ++teamSize;
+    $("#teamSize").text(teamSize);
+};
+
+var downTeamSize = function() {
+    --teamSize;
+    $("#teamSize").text(teamSize);
+};
+
+var rule = {
+  text: {
+    required: true
+  },
+  email: {
+    required: true,
+    email: true,
+  },
+  phoneNumber: {
+    required: true,
+    numeric: true,
+    min: 10,
+    max: 10
+  }
+};
+
+mentorRuleKey = {
+  email: "email",
+  firstName: "text",
+  lastName: "text",
+  phoneNumber: "phoneNumber",
+  jobTitle: "text",
+  workplace: "text"
+};
+
+var check = function(elem, wrapper, rule) {
+  var result = approve.value(elem.val(), rule);
+  if (result.approved) {
+    wrapper.children('label').text('');
+    wrapper.removeClass('has-error');
+  } else {
+    wrapper.children('label').text(result.errors[0]);
+    wrapper.addClass('has-error');
+    isValid = false;
+  }
+  return result.approved;
+};
+
+var validate = function() {
+  isValid = true;
+
+  validateTeam();
+  validateMentor();
+  validateOther();
+
+  if (parseInt($("#teamSize").text()) <= 0) {
+    isValid = false;
+    $("#teamMembersWrapper").children('label').text('is required');
+    $("#teamMembersWrapper").addClass('has-error');
+  } else {
+    $("#teamMembersWrapper").children('label').text('');
+    $("#teamMembersWrapper").removeClass('has-error');
+  }
+
+  if (parseInt($("#mentorSize").text()) <= 0) {
+    isValid = false;
+    $("#projectMentorsWrapper").children('label').text('is required');
+    $("#projectMentorsWrapper").addClass('has-error');
+  } else {
+    $("#projectMentorsWrapper").children('label').text('');
+    $("#projectMentorsWrapper").removeClass('has-error');
+  }
+};
+
+var validateTeam = function() {
+  var teamRowElems = $("#teamRows *[data-type=teamRow");
+  for (i = 0; i < teamRowElems.length; ++i) {
+    var teamRowElem = teamRowElems[i];
+    var firstNameElem = $(teamRowElem).find("*[data-id=firstName]");
+    var lastNameElem = $(teamRowElem).find("*[data-id=lastName]");
+    var emailElem = $(teamRowElem).find("*[data-id=email]");
+    check(firstNameElem, firstNameElem.parent(), rule.text);
+    check(lastNameElem, lastNameElem.parent(), rule.text);
+    check(emailElem, emailElem.parent().parent(), rule.text);
+  }
+};
+
+var validateMentor = function() {
+  if (mentors2.operation == "update") {
+    var mentorRowElems = $("#mentorRows *[data-type=mentorRow");
+    for (i = 0; i < mentorRowElems.length; ++i) {
+      var mentorRowElem = mentorRowElems[i];
+      for (j = 0; j < mentors2.updates.length; ++j) {
+        var key = mentors2.updates[j];
+        var elem = $(mentorRowElem).find("*[data-id=" + key + "]");
+        check(elem, elem.parent(), rule[mentorRuleKey[key]]);
+      }
+    }
+  } else if (mentors2.operation == "none") {
+    return;
+  } else {
+    var mentorRowElems = $("#mentorRows *[data-type=mentorRow");
+    for (i = 0; i < mentorRowElems.length; ++i) {
+      var mentorRowElem = mentorRowElems[i];
+      var firstNameElem = $(mentorRowElem).find("*[data-id=firstName]");
+      var lastNameElem = $(mentorRowElem).find("*[data-id=lastName]");
+      var emailElem = $(mentorRowElem).find("*[data-id=email]");
+      var phoneNumberElem = $(mentorRowElem).find("*[data-id=phoneNumber]");
+      var workplaceElem = $(mentorRowElem).find("*[data-id=workplace]");
+      var jobTitleElem = $(mentorRowElem).find("*[data-id=jobTitle]");
+
+      check(firstNameElem, firstNameElem.parent(), rule.text);
+      check(lastNameElem, lastNameElem.parent(), rule.text);
+      check(emailElem, emailElem.parent(), rule.email);
+      check(phoneNumberElem, phoneNumberElem.parent(), rule.phoneNumber);
+      check(workplaceElem, workplaceElem.parent(), rule.text);
+      check(jobTitleElem, jobTitleElem.parent(), rule.text);
+    };
+  }
+};
+
+var validateOther = function() {
+  var titleElem = $("#projectTitle");
+  var descriptionElem = $("#description");
+  check(titleElem, titleElem.parent(), rule.text);
+  check(descriptionElem, descriptionElem.parent(), rule.text);
+}
+</script>
+{>"templates/project/create/mentor-scripts"/}
+{/script}

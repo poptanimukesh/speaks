@@ -1,0 +1,3 @@
+<div class="wrapper">
+    <label>{msg}</label>
+</div>

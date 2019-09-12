@@ -1,0 +1,28 @@
+.banner-title {
+    // padding-top: 1em;
+    // padding-bottom: 1em;
+}
+
+.banner div {
+    padding: 0;
+    height: 50px;
+    img {
+        height: 50px;
+    }
+
+    h1,h2,h3,h4,h5,h6 {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    &.logo {
+        height: 100%;
+    }
+
+    img.constrain {
+        max-height: 70px;
+        max-width: 100%;
+        min-height: 50px;
+        // min-width: 300px;
+    }
+}

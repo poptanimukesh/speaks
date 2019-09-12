@@ -1,0 +1,32 @@
+{> "layouts/master" /}
+
+{<body}
+<div class="row">
+  <br/><br/>
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h5 class="margin0">General Information</h5></div>
+      <div class="panel-body">
+        <table id="metasTable" class="table" data-sorting="true">
+        </table>
+        <a class="btn btn-success pull-right" href="/admin/projects/exportReviewScores">Review Scores CSV</a>
+        <a class="btn btn-success pull-right" style="margin-right: 5px;" href="/admin/projects/export">Export CSV</a>
+      </div>
+    </div>
+  </div>
+  <br/><br/>
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h5 class="margin0">Projects</h5></div>
+        <div class="panel-body" style="padding: 0;">
+          <table id="projectsTable" class="table table-striped" data-sorting="true">
+          </table>
+        </div>
+    </div>
+  </div>
+</div>
+
+<input type="hidden" id="_csrf" name="_csrf" value="{_csrf}"/>
+
+{>"templates/admin/project/projects"/}
+{/body}

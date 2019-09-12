@@ -1,0 +1,10 @@
+<div id="q31-wrapper" class="wrapper">
+    <label id="q31-label">
+      <span class="question">
+        Please describe your target population and sample size for your study. Consider and respond to the following: Who are your patients? What are the inclusion/exclusion criteria? How many patients do you aim to include?
+      </span>
+      <span class="error"></span>
+    </label>
+    <textarea id="q31" class="form-control" rows="7"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>{details.q31}</textarea>
+</div>

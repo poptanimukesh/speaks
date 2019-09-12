@@ -1,0 +1,20 @@
+{> "layouts/master" /}
+
+{<body}
+<div class="row">
+  <br/><br/>
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h5 class="margin0">Projects</h5></div>
+        <div class="panel-body" style="padding: 0;">
+          <table id="projectsTable" class="table table-striped" data-sorting="true">
+          </table>
+        </div>
+    </div>
+  </div>
+</div>
+
+<input type="hidden" id="_csrf" name="_csrf" value="{_csrf}"/>
+
+{>"templates/reviewer/project/projects"/}
+{/body}

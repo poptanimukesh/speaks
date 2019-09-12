@@ -1,0 +1,13 @@
+<script type="text/javascript">
+$(document).ready(function(e) {
+  {@eq key=role value="admin" }
+    $(document).find("input").removeAttr("disabled");
+    $(document).find("textarea").removeAttr("disabled");
+  {/eq}
+
+  {@eq key=details.proposal_locked value="true"}
+    $(document).find("input").attr("disabled", "disabled");
+    $(document).find("textarea").attr("disabled", "disabled");
+  {/eq}
+});
+</script>

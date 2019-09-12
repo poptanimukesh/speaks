@@ -1,0 +1,11 @@
+<div id="q7-wrapper" class="wrapper">
+    <label id="q7-label">
+      <span class="question">
+        Please describe the specific roles and responsibilities of each student group member for this scholarly project. (It is not reasonable or acceptable to indicate that every member of your group will do every part of the project equally.)
+      </span>
+      <span class="error"></span>
+    </label>
+    <textarea id="q7" class="form-control" rows="7"
+      {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+      {details.q7}</textarea>
+</div>

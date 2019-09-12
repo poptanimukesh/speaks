@@ -1,0 +1,7 @@
+<div class="wrapper">
+    <a id="btn-save" class="btn btn-success" type="submit" href="javascript:void(0)">Save</a>
+    <a id="btn-cancel" class="btn btn-default" type="button" href="{backUrl}">Back</a>
+
+    <input type="hidden" id="_csrf" value="{_csrf}" />
+    <script type="text/javascript" src="{js}"></script>
+</div>

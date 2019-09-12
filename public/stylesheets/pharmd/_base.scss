@@ -1,0 +1,66 @@
+body {
+  min-height: 100vh;
+  position: relative;
+  margin: 0;
+}
+
+footer, .footer {
+  position: absolute;
+  bottom: 0;
+}
+
+.wrapper {
+	max-width: $screen-max-width;
+	margin: auto;
+	// padding: 60px 30px 60px 30px;
+	@media screen and (max-width: $screen-max-width) {
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+}
+
+.img-wrapper {
+	width: 100%;
+	display: inline-block;
+
+	img {
+		display: block;
+		margin: 0 auto;
+		vertical-align: middle;
+	}
+}
+
+.footer-wrapper {
+	padding: 2em;
+}
+
+.status-success {
+	color: $brand-success !important;
+}
+
+.status-danger {
+	color: $brand-warning !important;
+}
+
+.padding0 {
+	padding: 0;
+}
+
+.margin0 {
+	margin: 0;
+	.button {
+		border-radius: 0;
+	}
+}
+
+.radius0 {
+	border-radius: 0;
+}
+
+.border0 {
+	border: none !important;
+}
+
+.block {
+	display: block;
+}

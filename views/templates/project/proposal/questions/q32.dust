@@ -1,0 +1,10 @@
+<div id="q32-wrapper" class="wrapper">
+    <label id="q32-label">
+      <span class="question">
+        Please describe your data collection plan.
+      </span>
+      <span class="error"></span>
+    </label>
+    <textarea id="q32" class="form-control" rows="5"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>{details.q32}</textarea>
+</div>

@@ -1,0 +1,321 @@
+<script type="text/javascript">
+var modal,
+  editor,
+  ftable,
+  metasFtable;
+
+var formatter = {
+  wrapAsLinkButton: function(title) {
+    return function(value) {
+      if (value == undefined || value == null || value == false || value == "false" || value == "") {
+        return '';
+      }
+      return '<a target="_blank" class="btn btn-default btn-xs" href="' + value + '">' + title + '</a>';
+    }
+  },
+  wrapAsLink: function(value) {
+    return '<a target="_blank" href="' + value + '">' + location.host + value + '</a>';
+  },
+  wrapAsReviewLink: function(value) {
+    return '<a target="_blank" href="' + value + '/proposal-review' + '">' + location.host + value + '/proposal-review' + '</a>';
+  },
+  links: function(data) {
+    var result = '';
+
+    result += formatter.wrapAsLinkButton('Abstract')(data.abstract)
+      + formatter.wrapAsLinkButton('Poster')(data.poster)
+      + formatter.wrapAsLinkButton('Project')(data.project);
+
+    return result;
+  },
+  wrapAsCheckbox: function(title, eventHandler, proxyId) {
+    return function(value) {
+      if (value == undefined || value == null || value == false || value == "false" || value == "") {
+        return '<input data-proxyid="' + proxyId + '" type="checkbox" value="' + title + '" onchange="eventHandlers.' + eventHandler + '(event)"/> ' + title + '<br/>';
+      }
+      return '<input data-proxyid="' + proxyId + '" type="checkbox" checked="checked" value="' + title + '" onchange="eventHandlers.' + eventHandler + '(event)"/> ' + title + '<br/>';
+    }
+  },
+  switches: function(data) {
+    var result = formatter.wrapAsCheckbox("Abstract", "onAbstractCheckChange", data.proxyId)(data.abstractLocked)
+      + formatter.wrapAsCheckbox("Poster", "onPosterCheckChange", data.proxyId)(data.posterSubmitted)
+      + formatter.wrapAsCheckbox("Proposal", "onProposalCheckChange", data.proxyId)(data.proposalLocked)
+      + formatter.wrapAsCheckbox("Publish", "onPuslishSymposiumCheckChange", data.proxyId)(data.publishSymposium)
+      + formatter.wrapAsCheckbox("Deleted", "onDeletedCheckChange", data.proxyId)(data.projectDeleted);
+    result += formatter.misc(data.misc);
+    return result;
+  },
+  misc: function(data) {
+    var result = "";
+    if (data.studentHasCommented) {
+      result += '<span class="label label-primary">Student Comments</span>';
+      result += '</br>';
+    }
+    if (data.adminHasCommented) {
+      result += '<span class="label label-danger">Admin Comments</span>';
+      result += '</br>';
+    }
+    return result;
+  },
+  updateDetailsButton: function(proxyId, title, dataKey, dataValue) {
+    var result ='';
+
+    result += '<button class="btn btn-default btn-xs" onclick="detailsUpdate(\'' + proxyId +'\',\'' + dataKey + '\',\'' + dataValue +'\')">' + title + '</button>';
+
+    return result;
+  }
+};
+
+function detailsUpdate(proxyId, key, value) {
+    var data = {
+        _csrf: $("#_csrf").val()
+    };
+    data[key] = value;
+
+    $.ajax({
+        method: "PUT",
+        url: "/api/v1/project/" + proxyId + "/details",
+        data: data,
+    }).done(function(result) {
+        if (result.status == "error") {
+            alert('Error');
+        } else {
+            alert('Success');
+        }
+    }).fail(function(err) {
+        alert('Error');
+    });
+};
+
+var sortValue = {
+  switches: function(data) {
+    if (data.misc.studentHasCommented) {
+      return 0;
+    }
+    if (data.misc.adminHasCommented) {
+      return 1;
+    }
+    return 1000;
+  },
+  status: function(data) {
+    if (data == "In Progress") return 0;
+    if (data == "Complete") return 1;
+    if (data == "Published") return 2;
+  }
+};
+
+var eventHandlers = {
+  onAbstractCheckChange: function(e) {
+    var target = $(e.target);
+    var isChecked = target.is(':checked');
+    var proxyId = target.data('proxyid');
+    var _csrf = $("#_csrf").val();
+
+    $.post({
+      method: 'PUT',
+      url: '/api/v1/project/' + proxyId + '/details',
+      data: {
+        abstract_locked: isChecked,
+        _csrf: _csrf
+      }
+    }).done(function(result) {
+      alert('Success');
+    }).fail(function(err) {
+      document.write(err.responseText);
+    });
+  },
+  onPosterCheckChange: function(e) {
+    var target = $(e.target);
+    var isChecked = target.is(':checked');
+    var proxyId = target.data('proxyid');
+    var _csrf = $("#_csrf").val();
+
+    $.post({
+      method: 'PUT',
+      url: '/api/v1/project/' + proxyId + '/details',
+      data: {
+        poster_submitted: isChecked,
+        _csrf: _csrf
+      }
+    }).done(function(result) {
+      alert('Success');
+    }).fail(function(err) {
+      document.write(err.responseText);
+    });
+  },
+  onProposalCheckChange: function(e) {
+    var target = $(e.target);
+    var isChecked = target.is(':checked');
+    var proxyId = target.data('proxyid');
+    var _csrf = $("#_csrf").val();
+
+    $.post({
+      method: 'PUT',
+      url: '/api/v1/project/' + proxyId + '/details',
+      data: {
+        proposal_locked: isChecked,
+        _csrf: _csrf
+      }
+    }).done(function(result) {
+      alert('Success');
+    }).fail(function(err) {
+      document.write(err.responseText);
+    });
+  },
+  onPuslishSymposiumCheckChange: function(e) {
+    var target = $(e.target);
+    var isChecked = target.is(':checked');
+    var proxyId = target.data('proxyid');
+    var _csrf = $("#_csrf").val();
+
+    $.post({
+      method: 'PUT',
+      url: '/api/v1/project/' + proxyId + '/details',
+      data: {
+        publish_symposium: isChecked,
+        _csrf: _csrf
+      }
+    }).done(function(result) {
+      alert('Success');
+    }).fail(function(err) {
+      document.write(err.responseText);
+    });
+  },
+  onDeletedCheckChange: function(e) {
+    var target = $(e.target);
+    var isChecked = target.is(':checked');
+    var proxyId = target.data('proxyid');
+    var _csrf = $("#_csrf").val();
+
+    $.post({
+      method: 'DELETE',
+      url: '/api/v1/project/' + proxyId,
+      data: {
+        _csrf: _csrf
+      }
+    }).done(function(result) {
+      alert('Success');
+    }).fail(function(err) {
+      document.write(err.responseText);
+    });
+  }
+};
+
+var getURLParameter = function(sParam) {
+  var sPageURL = window.location.search.substring(1);
+  var sURLVariables = sPageURL.split('&');
+  for (var i = 0; i < sURLVariables.length; i++)
+  {
+      var sParameterName = sURLVariables[i].split('=');
+      if (sParameterName[0] == sParam)
+      {
+          return sParameterName[1];
+      }
+  }
+};
+
+var metasFormatterForType = {
+  count: function(data) {
+    return
+    "<table class='table table-condensed'>\
+      <thead><tr><th><strong>Count Type</strong></th><th><strong>Value</strong></th></tr></thead>\
+      <tbody>\
+        <tr><td>In Progress</td><td>" + data["In Progress"] + "</td></tr>\
+        <tr><td>Complete</td><td>" + data["Complete"] + "</td></tr>\
+        <tr><td>Published</td><td>" + data["Published"] + "</td></tr>\
+        <tr><td>Total</td><td>" + data["Total"] + "</td></tr>\
+        <tr><td></br></td><td></br></td></tr>\
+        <tr><td>Admin Comments</td><td>" + data["AdminComments"] + "</td></tr>\
+        <tr><td>Student Comments</td><td>" + data["StudentComments"] + "</td></tr>\
+      </tbody>\
+    </table>";
+  }
+};
+
+var metasFormatter = function(data) {
+  return metasFormatterForType[data.key](data.value);
+};
+
+$(document).ready(function() {
+  proxyId = $("#proxyId").text();
+  var projectsGetUrl = '/api/v1/admin/projects';
+  var columnsGetUrl = '/api/v1/admin/projects/columns';
+
+  modal = $("#editor-modal");
+  editor = $("#editor");
+  editorTitle = $("#editorTitle");
+
+  $.get(projectsGetUrl).done(function(result) {
+    var columns = [
+      { name: "projectId", title: "Project ID", visible: true, breakpoints: "xs" },
+      { name: "title", title: "Title", vislble: true, style: {maxWidth: 240} },
+      { name: "projectCategory", title: "Category", visible: true, style: {maxWidth: 160} },
+      { name: "status", title: "Status", visible: true, sortValue: sortValue.status },
+      { name: "links", title: "Links", visible: true, type: "object", formatter: formatter.links },
+      { name: "switches", title: "Misc", visible: true, type: "object", formatter: formatter.switches, sortValue: sortValue.switches, style: {maxWidth: 120} },
+      { name: "linkPublish", title: "Publish", visible: false },
+      { name: "teamMembers", title: "Team Members", visible: true, breakpoints: "xs sm md lg" },
+      { name: "mentor", title: "Mentor", visible: true, breakpoints: "xs sm md lg" },
+      { name: "description", title: "Description", visible: true, breakpoints: "xs sm md lg" },
+      { name: "adminUrl", title: "Admin URL", visible: true, type: "text", breakpoints: "xs sm md lg", formatter: formatter.wrapAsLink },
+      { name: "mentorUrl", title: "Mentor URL", visible: true, type: "text", breakpoints: "xs sm md lg", formatter: formatter.wrapAsLink },
+      { name: "studentUrl", title: "Student URL", visible: true, type: "text", breakpoints: "xs sm md lg", formatter: formatter.wrapAsLink },
+      { name: "detailsId", title: "Project Details ID", visible: false },
+      { name: "mentorUrl", title: "Review URL", visible: true, type: "text", breakpoints: "xs sm md lg", formatter: formatter.wrapAsReviewLink },
+    ];
+
+    var formattedProjects = [];
+    var projectsCount = [];
+
+    var showDeleted = getURLParameter("deleted");
+    if (!showDeleted) {
+      for (var i in result.data.formattedProjects) {
+        var formattedProject = result.data.formattedProjects[i];
+        if (formattedProject.active) {
+          formattedProjects.push(formattedProject);
+        }
+      }
+      projectsCount = result.data.meta.countActive;
+    } else {
+      formattedProjects = result.data.formattedProjects;
+      projectsCount = result.data.meta.count;
+    }
+
+    console.log(formattedProjects);
+
+    ftable = FooTable.init('#projectsTable', {
+      columns: columns,
+      rows: formattedProjects,
+      sorting: {
+        enabled: true
+      },
+      filtering: {
+        enabled: true
+      },
+    });
+
+    var metaColumns = [
+      { name: "item", title: "", type: "object", formatter: metasFormatter }
+    ];
+    var metaRows = [{
+      item: {
+        key: "count",
+        value: projectsCount
+      }
+    }];
+
+    metasFtable = FooTable.init("#metasTable", {
+      showHeader: false,
+      columns: metaColumns,
+      rows: metaRows,
+    });
+  }).fail(function(err) {
+    if (err.status == 401) {
+      alert('Unauthorized');
+      location.href = '/admin/login';
+    } else {
+      alert('Error');
+    }
+  });
+});
+</script>

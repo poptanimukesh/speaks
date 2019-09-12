@@ -1,0 +1,18 @@
+<div id="q16-wrapper" class="wrapper">
+    <label id="q16-label">
+      <span class="question">
+        Project Advisor(s): Please attach CV
+      </span>
+      <span class="error"></span>
+    </label>
+    <br/>
+    {#mentors.members}
+      {@eq key=role value="student"}
+        <span>Upload CV for {FirstName} {LastName}</span><br/>
+      {:else}
+      <label>NOTE: CV upload is not functional at this moment. You will be informed when it's functional. Apologies for the inconenience</label>
+        <!-- <a href="http://pharmacysyllabus.usc.edu/Syllabus/Coord/InstructorCV.html?Instructor={LecturerID}" target="_blank"/>Upload CV for {FirstName} {LastName}</a --> <br/>
+      {/eq}
+    {/mentors.members}
+    <br/>
+</div>

@@ -1,0 +1,156 @@
+{> "layouts/master" /}
+
+{<body}
+{>"templates/project/create/mentor"/}
+
+</br>
+<button type="button" id="submit" class="btn btn-success">Submit</button>
+<script type="text/javascript">
+var isValid = false;
+var mentorRowIndex = {@size key=mentors.members /};
+var mentorSize = 0;
+var mentors2 = {};
+var fetchedMentor = undefined;
+
+$("#submit").click(function(e) {
+  validate();
+  if (!isValid) {
+    return;
+  }
+
+  var data = {
+    mentors: {
+      size: 0,
+      members: []
+    },
+    mentors2: mentors2,
+    fetchedMentor: fetchedMentor,
+    _csrf: ""
+  };
+
+  var mentorRowElems = $("#mentorRows *[data-type=mentorRow");
+  for (i = 0; i < mentorRowElems.length; ++i) {
+    var mentorRowElem = mentorRowElems[i];
+    var firstNameElem = $(mentorRowElem).find("*[data-id=firstName]");
+    var lastNameElem = $(mentorRowElem).find("*[data-id=lastName]");
+    var emailElem = $(mentorRowElem).find("*[data-id=email]");
+    var phoneNumberElem = $(mentorRowElem).find("*[data-id=phoneNumber]");
+    var workplaceElem = $(mentorRowElem).find("*[data-id=workplace]");
+    var jobTitleElem = $(mentorRowElem).find("*[data-id=jobTitle]");
+
+    data.mentors.members.push({
+      firstName: firstNameElem.val(),
+      lastName: lastNameElem.val(),
+      email: emailElem.val(),
+      phoneNumber: phoneNumberElem.val(),
+      workplace: workplaceElem.val(),
+      jobTitle: jobTitleElem.val()
+    });
+  };
+  data.mentors.size = data.mentors.members.length;
+
+  data._csrf = $("#_csrf").text();
+
+  console.log(data);
+
+  $.ajax({
+    url: '/api/v1/project/{proxyId}/addmentor',
+    type: 'POST',
+    dataType: 'json',
+    data: data
+  }).done(function(result) {
+    location.href = '/project/{proxyId}';
+  }).fail(function(err) {
+    alert('Error');
+    document.write(err.responseText);
+  });
+});
+
+var rule = {
+  text: {
+    required: true
+  },
+  email: {
+    required: true,
+    email: true,
+  },
+  phoneNumber: {
+    required: true,
+    numeric: true,
+    min: 10,
+    max: 10
+  }
+};
+
+mentorRuleKey = {
+  email: "email",
+  firstName: "text",
+  lastName: "text",
+  phoneNumber: "phoneNumber",
+  jobTitle: "text",
+  workplace: "text"
+};
+
+var check = function(elem, wrapper, rule) {
+  var result = approve.value(elem.val(), rule);
+  if (result.approved) {
+    wrapper.children('label').text('');
+    wrapper.removeClass('has-error');
+  } else {
+    wrapper.children('label').text(result.errors[0]);
+    wrapper.addClass('has-error');
+    isValid = false;
+  }
+  return result.approved;
+};
+
+var validate = function() {
+  isValid = true;
+  validateMentor();
+
+  if (mentorSize <= 0) {
+    isValid = false;
+    $("#projectMentorsWrapper").children('label').text('is required');
+    $("#projectMentorsWrapper").addClass('has-error');
+  } else {
+    $("#projectMentorsWrapper").children('label').text('');
+    $("#projectMentorsWrapper").removeClass('has-error');
+  }
+};
+
+var validateMentor = function() {
+  if (mentors2.operation == "update") {
+    var mentorRowElems = $("#mentorRows *[data-type=mentorRow");
+    for (i = 0; i < mentorRowElems.length; ++i) {
+      var mentorRowElem = mentorRowElems[i];
+      for (j = 0; j < mentors2.updates.length; ++j) {
+        var key = mentors2.updates[j];
+        var elem = $(mentorRowElem).find("*[data-id=" + key + "]");
+        check(elem, elem.parent(), rule[mentorRuleKey[key]]);
+      }
+    }
+  } else if (mentors2.operation == "none") {
+    return;
+  } else {
+    var mentorRowElems = $("#mentorRows *[data-type=mentorRow");
+    for (i = 0; i < mentorRowElems.length; ++i) {
+      var mentorRowElem = mentorRowElems[i];
+      var firstNameElem = $(mentorRowElem).find("*[data-id=firstName]");
+      var lastNameElem = $(mentorRowElem).find("*[data-id=lastName]");
+      var emailElem = $(mentorRowElem).find("*[data-id=email]");
+      var phoneNumberElem = $(mentorRowElem).find("*[data-id=phoneNumber]");
+      var workplaceElem = $(mentorRowElem).find("*[data-id=workplace]");
+      var jobTitleElem = $(mentorRowElem).find("*[data-id=jobTitle]");
+
+      check(firstNameElem, firstNameElem.parent(), rule.text);
+      check(lastNameElem, lastNameElem.parent(), rule.text);
+      check(emailElem, emailElem.parent(), rule.email);
+      check(phoneNumberElem, phoneNumberElem.parent(), rule.phoneNumber);
+      check(workplaceElem, workplaceElem.parent(), rule.text);
+      check(jobTitleElem, jobTitleElem.parent(), rule.text);
+    };
+  }
+};
+</script>
+{>"templates/project/create/mentor-scripts"/}
+{/body}

@@ -1,0 +1,30 @@
+{
+  "pharmdscholarlyproject": {
+    "host"     : "uscpharmdbmysql.mysql.database.azure.com",
+    "user"     : "scholarlyserver@uscpharmdbmysql",
+    "password" : "enaleadwilcounge",
+    "database" : "pharmdscholarlyproject",
+    "ssl" : true
+  },
+  "pharmdscholarlyproject_dev": {
+    "host"     : "uscpharmdbmysql.mysql.database.azure.com",
+    "user"     : "scholarlyserver@uscpharmdbmysql",
+    "password" : "enaleadwilcounge",
+    "database" : "pharmdscholarlyproject_dev",
+    "ssl" : true
+  },
+  "syllabus": {
+    "host"     : "uscpharmdbmysql.mysql.database.azure.com",
+    "user"     : "scholarlyserver@uscpharmdbmysql",
+    "password" : "enaleadwilcounge",
+    "database" : "syllabus",
+    "ssl" : true
+  },
+  "syllabusdemo": {
+    "host"     : "uscpharmdbmysql.mysql.database.azure.com",
+    "user"     : "scholarlyserver@uscpharmdbmysql",
+    "password" : "enaleadwilcounge",
+    "database" : "syllabusdemo",
+    "ssl" : true
+  }
+}

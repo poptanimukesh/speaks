@@ -1,0 +1,44 @@
+{> "layouts/master" /}
+
+{<body}
+{! {@message type="content" key="greeting"/} !}
+
+<br/>
+<br/>
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-6">
+        <table class="table table-striped">
+            <tbody>
+                <tr id="newFileRow">
+                    <td class="pull-left border0"><button id="addNewFile" class="btn btn-default"><i class="fa fa-plus" aria-hidden="true"></i></button></td>
+                </tr>
+                <tr id="fileRowClone" class="hidden">
+                    <td class="pull-left border0"><button disabled="disabled" class="btn btn-default"><i class="fa fa-remove" aria-hidden="true"></i></button></td>
+                    <td class="pull-left border0 fileName"></td>
+                </tr>
+                <input id="fileChooser" type="file" class="hidden" />
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</br>
+<a href="/project/{project.project_id}/proposal" class="btn btn-default">{@message type="content" key="back"/}</a>
+
+{+script /}
+{/body}
+
+{<script}
+<script type="text/javascript">
+$("#addNewFile").click(function() {
+    $("#fileChooser").click();
+});
+
+$("#fileChooser").change(function() {
+    var clone = $("#fileRowClone").clone().removeClass("hidden");
+    var fileName = document.getElementById("fileChooser").files[0].name;
+    clone.find(".fileName").eq(0).text(fileName);
+    $(clone).insertBefore("#newFileRow");
+});
+</script>
+{/script}

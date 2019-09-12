@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-6">
+    <select id="selectCategory" class="form-control">
+      <option value="Academia">Academia</option>
+      <option value="Acute care pharmacy practice">Acute care pharmacy practice</option>
+      <option value="Ambulatory care pharmacy practice">Ambulatory care pharmacy practice</option>
+      <option value="Cardiology">Cardiology</option>
+      <option value="Community pharmacy practice">Community pharmacy practice</option>
+      <option value="Critical Care">Critical Care</option>
+      <option value="Endocrinology">Endocrinology</option>
+      <option value="Geriatrics">Geriatrics</option>
+      <option value="Health economics">Health economics</option>
+      <option value="Health policy">Health policy</option>
+      <option value="Hematology/Oncology">Hematology/Oncology</option>
+      <option value="Infectious disease">Infectious disease</option>
+      <option value="Pain and palliative care">Pain and palliative care</option>
+      <option value="Pediatrics">Pediatrics</option>
+      <option value="Pharmaceutical Industry">Pharmaceutical Industry</option>
+      <option value="Pharmacogenomics">Pharmacogenomics</option>
+      <option value="Pharmacokinetics/Pharmacodynamics">Pharmacokinetics/Pharmacodynamics</option>
+      <option value="Psychiatry/Neurology">Psychiatry/Neurology</option>
+      <option value="Public health">Public health</option>
+      <option value="Specialty pharmacy">Specialty pharmacy</option>
+      <option value="Toxicology">Toxicology</option>
+      <option value="Other">Other</option>
+    </select>
+    <input style="margin-top: 0.5em" class="form-control" type="text" id="otherCategory"/>
+    &nbsp;&nbsp;&nbsp;
+    <button style="margin-top: 0.5em" id="updateCategory" class="btn btn-default">Save</button>
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+  {?details.projectCategory}
+  if ($('#selectCategory option[value="{details.projectCategory}"]').length > 0) {
+    $('#selectCategory option[value="{details.projectCategory}"]').prop('selected', 'selected');
+    $("#otherCategory").hide();
+  } else {
+    $('#selectCategory option[value="Other"]').prop('selected', 'selected');
+    $("#otherCategory").val("{details.projectCategory}");
+    $("#otherCategory").show();
+  }
+  {/details.projectCategory}
+  $("#selectCategory").change(function(e) {
+    if ($(e.target).val() == "Other") {
+      $("#otherCategory").show();
+    } else {
+      $("#otherCategory").hide();
+    }
+  });
+  $("#updateCategory").click(function() {
+  	var proxyId = $("#proxyId").text();
+    var category = $("#selectCategory").val();
+    if (category == "Other") {
+      category = $("#otherCategory").val();
+    }
+  	$.ajax({
+  		method: "PUT",
+  		url: "/api/v1/project/" + proxyId + "/details",
+  		data: {
+  			projectCategory: category,
+  			_csrf: $("#_csrf").val()
+      }
+    }).done(function(results) {
+  		alert('Success');
+      location.reload();
+    }).fail(function(err) {
+      alert('Error');
+    });
+  });
+});
+</script>

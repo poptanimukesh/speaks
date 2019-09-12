@@ -1,0 +1,281 @@
+<script type="text/javascript">
+$(document).ready(function (e) {
+    $("#btn-save").click(onSave);
+    $("#btn-cancel").click(onCancel);
+    $("#btn-publish").click(onPublish);
+    $("#btn1-unpublish").click(onUnpublish);
+    $("#btn2-unpublish").click(onUnpublish);
+    createOldScores();
+});
+
+var onSave = function (e) {
+    var values = getValues();
+    var data = values;
+    data["_csrf"] = $("#_csrf").val();
+    var proxyId = $("#proxyId").text();
+
+    if(data["r1q101"]) {
+        data["r1q101"] = data["r1q101"].replace(";", ",");
+    }
+
+    if(data["r2q101"]) {
+        data["r2q101"] = data["r2q101"].replace(";", ",");
+    }    
+
+    $.ajax({
+        method: "PUT",
+        url: "/api/v1/project/" + proxyId + "/details",
+        data: data,
+    }).done(function (result) {
+        alert('Success');
+    }).fail(function (err) {
+        document.write(err.responseText);
+    });
+};
+
+var onPublish = function (e) {
+    var values = getValues();
+    var data = values;
+    data["_csrf"] = $("#_csrf").val();
+    var proxyId = $("#proxyId").text();
+    var reviewer = $('#reviewer').text();
+
+    if(data["r1q101"]) {
+        data["r1q101"] = data["r1q101"].replace(";", ",");
+    }
+
+    if(data["r2q101"]) {
+        data["r2q101"] = data["r2q101"].replace(";", ",");
+    }
+
+    for (var i in reviewIDs) {
+        if(data[reviewer + reviewIDs[i]] == undefined){
+            alert("Please fill all questions before publishing.");
+            return;
+        }
+    }
+
+    var count=0;
+    var zeroFound='false';
+    for (var i in reviewIDs) {
+        if(i<7){
+            var val = parseInt(data[reviewer + reviewIDs[i]]);
+            if(val==0)
+                zeroFound = 'true';
+            count += val;
+        }
+    }
+
+    data[reviewer + "_score"] =  count;
+
+    if(zeroFound==true || data[reviewer + "q98"]=='no' || data[reviewer + "q99"]=='no' || count<14){
+        data["requiresResumbission"] = "true";
+    }
+    data[reviewer + "_published"] = "true";
+    $.ajax({
+        method: "PUT",
+        url: "/api/v1/project/" + proxyId + "/details",
+        data: data,
+    }).done(function (result) {
+        alert('Published successfully');
+        $("#btn-save").css('display','none');
+        $("#btn-publish").css('display','none');
+    }).fail(function (err) {
+        document.write(err.responseText);
+    });
+    
+};
+
+var onUnpublish = function (e) {
+    var proxyId = $("#proxyId").text(); 
+    var reviewer1_oldScore = $("#reviewer1_oldScore").text(); 
+    var reviewer2_oldScore = $("#reviewer2_oldScore").text();
+
+
+    r1CurrScore = "";
+    for(var i=91;i<102;i++) {
+        var val = $("#r1q" + i).text()?$("#r1q" + i).text():" ";
+        r1CurrScore += val + ";";
+    }
+    r1CurrScore += $("#r1_score").text() + ";";
+    r1CurrScore += $("#r1").text() + ";";
+    r1CurrScore += getCurrDate();
+
+    reviewer1_oldScore = reviewer1_oldScore ? reviewer1_oldScore + "&&&" + r1CurrScore :
+                         reviewer1_oldScore + r1CurrScore;
+
+
+
+    r2CurrScore = "";
+    for(var i=91;i<102;i++) {
+        var val = $("#r2q" + i).text()?$("#r2q" + i).text():" ";
+        r2CurrScore += val + ";";
+    }
+    r2CurrScore += $("#r2_score").text() + ";";
+    r2CurrScore += $("#r2").text() + ";";
+    r2CurrScore += getCurrDate();
+
+    reviewer2_oldScore = reviewer2_oldScore ? reviewer2_oldScore + "&&&" + r2CurrScore :
+                         reviewer2_oldScore + r2CurrScore;
+
+
+    var data = {
+        r2_published : "false",
+        reviewer2_oldScore : reviewer2_oldScore,
+        r2q91: "",
+        r2q92: "",
+        r2q93: "",
+        r2q94: "",
+        r2q95: "",
+        r2q96: "",
+        r2q97: "",
+        r2q98: "",
+        r2q99: "",
+        r2q100: "",
+        r2q101: "",
+        r2_score: "",
+        _csrf : $("#_csrf").val() 
+    };
+    
+    if(e.target.id == "btn1-unpublish") {
+        data = {
+            r1_published : "false",
+            reviewer1_oldScore : reviewer1_oldScore,
+            r1q91: "",
+            r1q92: "",
+            r1q93: "",
+            r1q94: "",
+            r1q95: "",
+            r1q96: "",
+            r1q97: "",
+            r1q98: "",
+            r1q99: "",
+            r1q100: "",
+            r1q101: "",
+            r1_score: "",
+            _csrf : $("#_csrf").val()
+        };
+    }
+
+    $.ajax({
+        method: "PUT",
+        url: "/api/v1/project/" + proxyId + "/details",
+        data: data,
+    }).done(function (result) {
+        alert('Unpublished successfully');
+        $("#"+e.target.id).css('display','none');
+        location.reload();
+    }).fail(function (err) {
+        document.write(err.responseText);
+    });
+};
+
+function getCurrDate(){
+    var currentdate = new Date(); 
+    var datetime = "" + currentdate.getFullYear() + "-"
+                + (currentdate.getMonth()+1)  + "-" 
+                + currentdate.getDate() + " "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+    return datetime;
+}
+
+var onCancel = function (e) {
+    console.log('cancel clicked');
+};
+
+var id = function (key) {
+    return "#" + key;
+};
+
+var success = function (result) {
+    console.log(result);
+};
+
+function createOldScores(){
+
+    var htmlString = "<div class='row border1'>" +
+                          "<div class='col-md-4'>" +
+                              "<span>placeholder1</span>" +
+                          "</div>" +
+                          "<div class='col-md-8'>" +
+                              "<span>placeholder2</span>" +
+                          "</div>" +
+                      "</div>";
+
+
+    var htmlData="";
+
+    var placeHolder1Details  = [
+          "Research Question", "Research Objectives", "Significance/ Background", "Study Design", "Data Collection and Analysis plan", "Timeline and responsibilities of each team member",
+          "Readability and Grammar- The proposal", "IRB questions are completed and accurate", "Project advisor section completed", "Overall Impression", "Overall comments", "Total score"
+        ];
+    
+    if($('#reviewer1_oldScore').text()){
+        var noOfR1Scores = $('#reviewer1_oldScore').text().split("&&&");
+
+        for(var j=0;j<noOfR1Scores.length;j++) {
+
+            htmlData += "<div class='row border1'>" +
+                          "<div class='col-md-12'>" +
+                              "<span><strong>Old Score placeholder1</strong></span></span>" +
+                          "</div>" +
+                        "</div>";
+            htmlData = htmlData.replace("placeholder1", (j+1));
+
+            var r1OldScore = noOfR1Scores[j].split(";");
+
+            for(var i=0;i<12;i++) {
+
+                htmlData += htmlString;
+                htmlData = htmlData.replace("placeholder1", placeHolder1Details[i]);
+
+                htmlData = htmlData.replace("placeholder2", r1OldScore[i]);
+
+            }
+
+            htmlData += "<br/><br/>"        
+        }
+
+        $('#r1-dynamic-data').html(htmlData);
+    } else {
+        $('#r1-old-scores').css("display","none");
+    }
+
+    htmlData="";
+    if($('#reviewer2_oldScore').text()){
+        
+        var noOfR2Scores = $('#reviewer2_oldScore').text().split("&&&");
+        
+        for(var j=0;j<noOfR2Scores.length;j++) {
+
+            htmlData += "<div class='row border1'>" +
+                          "<div class='col-md-12'>" +
+                              "<span><strong>Old Score placeholder1</strong></span></span>" +
+                          "</div>" +
+                        "</div>";
+            htmlData = htmlData.replace("placeholder1", (j+1));
+
+            var r2OldScore = noOfR2Scores[j].split(";");
+
+            for(var i=0;i<12;i++) {
+
+                htmlData += htmlString;
+                
+                htmlData = htmlData.replace("placeholder1", placeHolder1Details[i]);
+
+                htmlData = htmlData.replace("placeholder2", r2OldScore[i]);
+
+            }
+
+            htmlData += "<br/><br/>"        
+        }
+
+        $('#r2-dynamic-data').html(htmlData);
+    } else {
+        $('#r2-old-scores').css("display","none");
+    }
+
+}
+</script>

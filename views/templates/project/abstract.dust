@@ -1,0 +1,112 @@
+{> "layouts/master" /}
+
+{<body}
+<div class="row">
+    <div class="col-xs-12 col-sm-12">
+        <h3>{details.title}</h3>
+        <p>Fill in sections for generating an abstract for the poster (in about 300 words or less in total).</p>
+    </div>
+</div>
+<br/><br/>
+<div class="row">
+    <div class="col-xs-12 col-sm-8">
+        <div id="q14-wrapper" class="wrapper">
+            <label id="q14-label">Background / Purpose</label>
+            <textarea id="poster_purpose" class="form-control" rows="5" {@eq key=details.abstract_locked value="true"} disabled="disabled" {/eq}>{details.poster_purpose}</textarea>
+        </div><br/>
+        <div id="q14-wrapper" class="wrapper">
+            <label id="q14-label">Methods</label>
+            <textarea id="poster_methods" class="form-control" rows="5" {@eq key=details.abstract_locked value="true"} disabled="disabled" {/eq}>{details.poster_methods}</textarea>
+        </div><br/>
+        <div id="q14-wrapper" class="wrapper">
+            <label id="q14-label">Results</label>
+            <textarea id="poster_results" class="form-control" rows="5" {@eq key=details.abstract_locked value="true"} disabled="disabled" {/eq}>{details.poster_results}</textarea>
+        </div><br/>
+        <div id="q14-wrapper" class="wrapper">
+            <label id="q14-label">Conclusions</label>
+            <textarea id="poster_conclusions" class="form-control" rows="5" {@eq key=details.abstract_locked value="true"} disabled="disabled" {/eq}>{details.poster_conclusions}</textarea>
+        </div>
+        <input type="hidden" id="_csrf" name="_csrf" value="{_csrf}"/>
+        <br/>
+        <div class="wrapper">
+            <a id="btn-cancel" class="btn btn-default" type="button" href="{urls.proxyUrl}">Back</a>
+            <a id="btn-save" class="btn btn-success" type="submit" href="javascript:void(0)">Save</a>
+            <br/>
+            <br/>
+            <a id="btn-download" class="btn btn-default" type="submit" href="/project/{proxyId}/documents/poster-abstract">Download PDF</a>
+            {@ne key=details.abstract_locked value="true"} <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Submit</button> {/ne}
+
+            <input type="hidden" id="proxyId" value="{proxyId}" />
+            <script type="text/javascript" src="{js}"></script>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to submit? Once submitted, you cannot make changes.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <a type="button" class="btn btn-danger" href="/project/{proxyId}/poster-abstract/submit">Submit</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{+scripts/}
+{/body}
+
+{<scripts}
+<script type="text/javascript">
+$(document).ready(function(e) {
+  console.log('on ready');
+  console.log(e);
+
+  $("#btn-save").click(onSave);
+});
+
+var onSave = function(e) {
+  console.log('save clicked');
+  console.log(e);
+  var values = getValues();
+  var data = values;
+  data["_csrf"] = $("#_csrf").val();
+  console.log(data);
+  var proxyId = $("#proxyId").val();
+  console.log('proxyId: ' + proxyId);
+
+  $.ajax({
+    method: "PUT",
+    url: "/api/v1/project/" + proxyId + "/details",
+    data: data,
+  }).done(success)
+  .fail(failure);
+};
+
+var getValues = function() {
+  values = {
+    poster_purpose: $("#poster_purpose").val(),
+    poster_methods: $("#poster_methods").val(),
+    poster_results: $("#poster_results").val(),
+    poster_conclusions: $("#poster_conclusions").val()
+  };
+  return values;
+};
+
+var success = function(result) {
+  alert("Saved succcessfully");
+};
+
+var failure = function(err) {
+  document.write(err.responseText);
+}
+</script>
+{/scripts}

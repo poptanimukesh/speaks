@@ -1,0 +1,11 @@
+{>"layouts/master"/}
+
+{<body}
+500: Internal Server Error
+<br/>
+Contact <a href="mailto:poptani@usc.edu">poptani@usc.edu</a> for assistance with subject as <strong>PSP Error</strong>.</br>
+Paste the content below in body of email for reference.
+<br/>
+<br/>
+{err}
+{/body}

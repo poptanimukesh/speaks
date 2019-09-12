@@ -1,0 +1,11 @@
+<div id="q20-wrapper" class="wrapper">
+    <label id="q20-label">
+      <span class="question">
+        Please briefly describe your previous scholarly work including research, quality improvement initiatives, publications, etc.
+      </span>
+      <span class="error"></span>
+    </label>
+    <textarea id="q20" class="form-control" rows="5"
+    {?forRole} {@ne key=role value=forRole} disabled="disabled" {/ne} {/forRole}>
+    {details.q20}</textarea>
+</div>

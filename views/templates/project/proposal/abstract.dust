@@ -1,0 +1,19 @@
+{> "layouts/master" /}
+
+{<body}
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-6">
+        <h5><strong>{@pre type="content" key="abstract"/}</strong></h5>
+        <textarea class="form-control" rows="8">{proposal.abstract.content}</textarea>
+    </div>
+</div>
+
+<br/>
+<br/>
+{?proposal.abstract.enabled}
+<a href="/project/{project.project_id}/proposal" class="btn btn-default">{@pre type="content" key="cancel"/}</a>
+<a href="/project/{project.project_id}/proposal" class="btn btn-success">{@pre type="content" key="save"/}</a>
+{:else}
+<a href="/project/{project.project_id}/proposal" class="btn btn-default">{@pre type="content" key="back"/}</a>
+{/proposal.abstract.enabled}
+{/body}
