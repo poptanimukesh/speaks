@@ -206,7 +206,7 @@ router.get('/:proxyId/upload', function (req, res) {
 
 var posterStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/posters/')
+        cb(null, '/home/uploads/posters/')
     },
     filename: function (req, file, cb) {
         var proxyId = req.params['proxyId'];
@@ -321,7 +321,7 @@ router.get('/:proxyId/documents/:type', function (req, res) {
                     inlineData: inlineData
                 }, function () {
                     var input = fs.createReadStream('/home/builds/poster_abstract-' + projectId + '.tex');
-                    var output = fs.createWriteStream('/homebuilds/poster_abstract-' + projectId + '.pdf');
+                    var output = fs.createWriteStream('/home/builds/poster_abstract-' + projectId + '.pdf');
                     var pdf = latex(input, {
                         command: 'pdflatex'
                     });
