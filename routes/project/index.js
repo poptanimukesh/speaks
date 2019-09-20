@@ -317,11 +317,11 @@ router.get('/:proxyId/documents/:type', function (req, res) {
                 };
                 vr({
                     source: 'poster_abstract.tex.tmpl.tex',
-                    dest: 'builds/poster_abstract-' + projectId + '.tex',
+                    dest: '/home/builds/poster_abstract-' + projectId + '.tex',
                     inlineData: inlineData
                 }, function () {
-                    var input = fs.createReadStream('builds/poster_abstract-' + projectId + '.tex');
-                    var output = fs.createWriteStream('builds/poster_abstract-' + projectId + '.pdf');
+                    var input = fs.createReadStream('/home/builds/poster_abstract-' + projectId + '.tex');
+                    var output = fs.createWriteStream('/homebuilds/poster_abstract-' + projectId + '.pdf');
                     var pdf = latex(input, {
                         command: 'pdflatex'
                     });
@@ -332,8 +332,8 @@ router.get('/:proxyId/documents/:type', function (req, res) {
                     });
                     pdf.on('end', function () {
                         console.log('Done?');
-                        var file = fs.createReadStream('builds/poster_abstract-' + projectId + '.pdf');
-                        var stat = fs.statSync('builds/poster_abstract-' + projectId + '.pdf');
+                        var file = fs.createReadStream('/home/builds/poster_abstract-' + projectId + '.pdf');
+                        var stat = fs.statSync('/home/builds/poster_abstract-' + projectId + '.pdf');
                         res.setHeader('Content-Length', stat.size);
                         res.setHeader('Content-Type', 'application/pdf');
                         res.setHeader('Content-Disposition', 'attachment; filename=PosterAbstract-' + result.project.projectId + '.pdf');
@@ -359,7 +359,7 @@ router.get('/:proxyId/documents/:type', function (req, res) {
             } else {
                 try {
                     var filename = projectId + path.extname(result.details.poster_originalname);
-                    var filepath = 'uploads/posters/' + filename;
+                    var filepath = '/home/uploads/posters/' + filename;
                     var file = fs.createReadStream(filepath);
                     var stat = fs.statSync(filepath);
                     res.setHeader('Content-Length', stat.size);
@@ -427,12 +427,12 @@ router.get('/:proxyId/documents/:type', function (req, res) {
                 };
                 vr({
                     source: 'proposal.tex.tmpl.tex',
-                    dest: 'builds/proposal-' + projectId + '.tex',
+                    dest: '/home/builds/proposal-' + projectId + '.tex',
                     variablePattern: /\|([\w._-]+)\|/g,
                     inlineData: inlineData
                 }, function () {
-                    var input = fs.createReadStream('builds/proposal-' + projectId + '.tex');
-                    var output = fs.createWriteStream('builds/proposal-' + projectId + '.pdf');
+                    var input = fs.createReadStream('/home/builds/proposal-' + projectId + '.tex');
+                    var output = fs.createWriteStream('/home/builds/proposal-' + projectId + '.pdf');
                     var pdf = latex(input, {
                         command: 'pdflatex'
                     });
@@ -443,8 +443,8 @@ router.get('/:proxyId/documents/:type', function (req, res) {
                     });
                     pdf.on('end', function () {
                         console.log('Done?');
-                        var file = fs.createReadStream('builds/proposal-' + projectId + '.pdf');
-                        var stat = fs.statSync('builds/proposal-' + projectId + '.pdf');
+                        var file = fs.createReadStream('/home/builds/proposal-' + projectId + '.pdf');
+                        var stat = fs.statSync('/home/builds/proposal-' + projectId + '.pdf');
                         res.setHeader('Content-Length', stat.size);
                         res.setHeader('Content-Type', 'application/pdf');
                         res.setHeader('Content-Disposition', 'attachment; filename=Proposal-' + result.project.projectId + '.pdf');
