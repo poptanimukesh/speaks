@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "adaro": "~1.0.4",
-    "bcrypt": "^3",
+    "bcrypt": "^5",
     "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.3",
     "cryptr": "^3.0.0",
